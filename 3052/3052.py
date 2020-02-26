@@ -1,0 +1,1 @@
+print(len(set((lambda a: a % 42)(int(input())) for _ in range(10))))
