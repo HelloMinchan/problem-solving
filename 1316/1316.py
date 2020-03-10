@@ -15,5 +15,6 @@ for _ in range(tot):
                 pre = i
             else:
                 visit[ord(pre) - 97] = True
+                pre = i
 
 print(tot)

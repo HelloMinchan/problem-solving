@@ -1,32 +1,18 @@
 import sys
 input = sys.stdin.readline
 
+cnt, idx = 0, 0
+keyword = [ 'c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z=' ]
+
 word = input().rstrip()
-tot = len(list(word))
 
-case1 = word.count("z=")
-case2 = word.count("dz=")
-case3 = word.count("c=")
-case4 = word.count("c-")
-case5 = word.count("d-")
-case6 = word.count("lj")
-case7 = word.count("nj")
-case8 = word.count("s=")
+while idx < len(word):
+	if (word[ idx : idx + 3 ] in keyword):
+		idx = idx + 3
+	elif (word[ idx : idx + 2 ] in keyword):
+		idx = idx + 2
+	else:
+		idx = idx + 1
+	cnt = cnt + 1
 
-if case1 > 0:
-    if case2 > 0:
-        tot -= (case1 - case2) + case2 * 2
-if case3 > 0:
-    tot -= case3
-if case4 > 0:
-    tot -= case4
-if case5 > 0:
-    tot -= case5
-if case6 > 0:
-    tot -= case6
-if case7 > 0:
-    tot -= case7
-if case8 > 0:
-    tot -= case8
-
-print(tot)
+print(cnt)
