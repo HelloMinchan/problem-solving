@@ -4,9 +4,6 @@ input = sys.stdin.readline
 
 def backTracking(index, S, visit, printList):
     if len(printList) == 6:
-        for i in range(len(printList) - 1):
-            if printList[i] > printList[i + 1]:
-                return
         print(*printList)
         return
 
