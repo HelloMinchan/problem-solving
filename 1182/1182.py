@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 
 
-def backTracking(index, N, S, sequence):
+def dfs(index, N, S, sequence):
     global answer
     global visit
     global stack
@@ -14,7 +14,7 @@ def backTracking(index, N, S, sequence):
         if not visit[i]:
             stack.append(sequence[i])
             visit[i] = True
-            backTracking(i, N, S, sequence)
+            dfs(i, N, S, sequence)
             stack.pop()
             visit[i] = False
 
@@ -25,5 +25,5 @@ answer = 0
 visit = [False] * N
 stack = []
 
-backTracking(0, N, S, sequence)
+dfs(0, N, S, sequence)
 print(answer)
