@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 
 def BFS(q):
-    global N, K, visit, dx, time
+    global K, visit, dx, time
 
     while not q.empty():
         size = q.qsize()
