@@ -8,14 +8,14 @@ int main() {
 
     scanf("%d", &N);
     for (int i = 0; i < N; i++) {
-	scanf("%d", &num);
-	bucket[num]++;
+	    scanf("%d", &num);
+	    bucket[num]++;
     }
 
     for (int i = 1; i <= 10000; i++) {
-	for (int j = 0; j < bucket[i]; j++) {
-	    printf("%d\n", i);
-	}
+	    for (int j = 0; j < bucket[i]; j++) {
+	        printf("%d\n", i);
+	    }
     }
 
     return 0;
