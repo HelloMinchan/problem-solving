@@ -8,20 +8,20 @@ int main(void) {
     int *arr = (int *)malloc(sizeof(int)*N);
 
     for (int i = 0; i < N; i++)
-	scanf("%d", &arr[i]);
+	    scanf("%d", &arr[i]);
 
     for (int i = 0; i < N - 1; i++) {
-	min = i;
-	for (int j = i + 1; j < N; j++) {
-	    if (arr[min] > arr[j])
-		min = j;
-	}
-	if(min != i)
-	    SWAP(arr[i], arr[min]);
+	    min = i;
+	    for (int j = i + 1; j < N; j++) {
+	        if (arr[min] > arr[j])
+		    min = j;
+	    }
+	    if(min != i)
+	        SWAP(arr[i], arr[min]);
     }
 
     for (int i = 0; i < N; i++)
-	printf("%d\n", arr[i]);
+	    printf("%d\n", arr[i]);
 
     free(arr);
     return 0;

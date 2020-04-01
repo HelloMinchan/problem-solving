@@ -1,11 +1,12 @@
 import sys
-from idlelib.idle_test.test_searchengine import GetTest
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
 trees = list(map(int, input().split()))
 cut = max(trees) // 2
-recordCut = []
+backCut1 = 0
+backCut2 = 0
+upAndDown = 0
 
 while True:
     getTree = 0
@@ -15,16 +16,23 @@ while True:
             continue
         getTree += tree - cut
 
-    if M == getTree:
+    if M < getTree:
+        if upAndDown == +1:
+            print(backCut2)
+            exit()
+        upAndDown += 1
+        cut = cut + (max(trees) - cut) // 2
+    elif M > getTree:
+        if upAndDown == -1:
+            print(backCut2)
+            exit()
+        upAndDown -= 1
+        cut = cut - (max(trees) - cut) // 2
+    else:
         print(cut)
         exit()
 
-    if M < getTree:
-        cut = cut + (max(trees) - cut) // 2
-        recordCut.append(cut)
-    
-    if M > getTree:
-        cut //= 2
-        recordCut.append(cut)
+    backCut2 = backCut1
+    backCut1 = getTree
 
 print(cut)
