@@ -1,4 +1,4 @@
-# PyPy3 통과 Python 3 시간 초과
+# PyPy3 정답 Python 3 시간 초과
 import sys
 input = sys.stdin.readline
 
