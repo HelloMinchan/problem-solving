@@ -3,36 +3,27 @@ input = sys.stdin.readline
 
 N, M = map(int, input().split())
 trees = list(map(int, input().split()))
-cut = max(trees) // 2
-backCut1 = 0
-backCut2 = 0
-upAndDown = 0
+left = 0
+right = max(trees)
+maxCut = 0
 
-while True:
+while left <= right:
     getTree = 0
-    
+    mid = (left + right) // 2
+
     for tree in trees:
-        if tree - cut < 0:
+        if tree - mid < 0:
             continue
-        getTree += tree - cut
+        getTree += tree - mid
 
-    if M < getTree:
-        if upAndDown == +1:
-            print(backCut2)
-            exit()
-        upAndDown += 1
-        cut = cut + (max(trees) - cut) // 2
-    elif M > getTree:
-        if upAndDown == -1:
-            print(backCut2)
-            exit()
-        upAndDown -= 1
-        cut = cut - (max(trees) - cut) // 2
+    if getTree == M:
+        print(mid)
+        sys.exit()
+    elif getTree < M:
+        right = mid - 1
     else:
-        print(cut)
-        exit()
-
-    backCut2 = backCut1
-    backCut1 = getTree
-
-print(cut)
+        if maxCut < mid:
+            maxCut = mid
+        left = mid + 1
+        
+print(maxCut)
