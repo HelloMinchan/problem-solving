@@ -1,34 +1,32 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10 ** 7)
-
-
-def DFS(index):
-    global N, C, x, visit, stack, distances
-    distance = 0
-
-    if len(stack) == C:
-        for i in range(C - 1):
-            if distance < abs(stack[i] - stack[i - 1]):
-                distance = abs(stack[i] - stack[i - 1])
-
-        distances.append(distance)
-
-    for i in range(index, N):
-        if not visit[i]:
-            visit[i] = True
-            stack.append(x[i])
-            DFS(i)
-            visit[i] = False
-            stack.pop()
-
 
 N, C = map(int, input().split())
-x = [int(input()) for _ in range(N)]
-visit = [False] * N
-stack = []
-distances = []
+x = sorted([int(input()) for _ in range(N)])
+result = 0
+left = 0
+right = max(x)
 
-DFS(0)
+while left <= right:
+    jump = mid = (left + right) // 2
 
-print(min(distances))
+    if mid * C > max(x):
+        right = mid - 1
+        continue
+    
+    count = 1
+    interval = x[0] + jump
+    for i in range(1, len(x)):
+        if interval > x[i]:
+            continue
+        else:
+            interval = x[i] + jump
+            count += 1
+    
+    if count < C:
+        right = mid - 1
+    else:
+        result = mid
+        left = mid + 1
+        
+print(result)
