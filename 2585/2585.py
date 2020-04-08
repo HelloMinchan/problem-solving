@@ -1,3 +1,4 @@
+# PyPy3 정답, Python 3 시간 초과
 from collections import deque
 import sys, math
 input = sys.stdin.readline
