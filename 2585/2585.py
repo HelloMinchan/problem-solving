@@ -16,6 +16,7 @@ def BFS(vertex, fuel):
     while len(dq):
         if landingCount > k:
             return False
+        
         for _ in range(len(dq)):
             vertex = dq.popleft()
 
@@ -24,13 +25,15 @@ def BFS(vertex, fuel):
 
                 for i in range(1, n + 1):
                     distance = math.sqrt(pow(airport[vertex][0] - airport[i][0], 2) + pow(airport[vertex][1] - airport[i][1], 2))
-                    
+
                     if distance <= fuel:
                         distanceForDestination = math.sqrt(pow(10000 - airport[i][0], 2) + pow(10000 - airport[i][1], 2))
 
-                        if distanceForDestination <= fuel:
+                        if distanceForDestination <= fuel:        
                             return True
+                        
                         dq.append(i)
+
         landingCount += 1
     
     return False
