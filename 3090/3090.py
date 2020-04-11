@@ -1,4 +1,4 @@
-import sys
+import sys, copy
 input = sys.stdin.readline
 
 N, T = map(int, input().split())
@@ -7,7 +7,7 @@ arr = list(map(int, input().split()))
 
 def investigate(gap):
     global tempArr
-    tempArr = arr[:]
+    tempArr = copy.deepcopy(arr)
     operCount = 0
 
     for i in range(N - 1):
@@ -26,14 +26,16 @@ def investigate(gap):
 
 
 left = 0
-right = T
+right = 1000000000
+result = []
 
 while left <= right:
     mid = (left + right) // 2
 
     if investigate(mid):
+        result = copy.deepcopy(tempArr)
         right = mid - 1
     else:
         left = mid + 1
 
-print(*tempArr)
+print(*result)
