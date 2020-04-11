@@ -3,32 +3,29 @@ input = sys.stdin.readline
 
 stairNum = int(input())
 stairs = [int(input()) for _ in range(stairNum)]
-memoization = [0]
-count = 0
+memoization = [0] * stairNum
 
-i = 0
-while True:
-    if i == stairNum - 1:
-        break
+if stairNum == 1:
+    print(stairs[0])
+    sys.exit(0)
+if stairNum == 2:
+    print(stairs[0] + stairs[1])
+    sys.exit(0)
 
-    if i == stairNum - 2:
-        if count == 0:
-            memoization.append(memoization[-1] + stairs[i])
-            memoization.append(memoization[-1] + stairs[i + 1])
-            break
+for i in range(stairNum):
+    if not i:
+        memoization[0] = stairs[0]
+    elif i == 1:
+        memoization[1] = stairs[0] + stairs[1]
+    elif i == 2:
+        if stairs[0] + stairs[2] > stairs[1] + stairs[2]:
+            memoization[2] = stairs[0] + stairs[2]
         else:
-            memoization.append(memoization[-1] + stairs[i + 1])
-            break
-    
-    if stairs[i] + memoization[-1] > stairs[i + 1] + memoization[-1]:
-        if count != 2:
-            memoization.append(stairs[i] + memoization[-1])
-            count += 1
-            i += 1
-            continue
-
-    memoization.append(stairs[i + 1] + memoization[-1])
-    count = 0
-    i += 2
+            memoization[2] = stairs[1] + stairs[2]
+    else:
+        if stairs[i] + stairs[i - 1] + memoization[i - 3] > stairs[i] + memoization[i - 2]:
+            memoization[i] = stairs[i] + stairs[i - 1] + memoization[i - 3]
+        else:
+            memoization[i] = stairs[i] + memoization[i - 2]
 
 print(memoization[-1])
