@@ -40,7 +40,7 @@ int main(void)
         }
     }
 
-    cout << *max_element(triangle[n - 1], triangle[n - 1] + n + 1);
+    cout << *max_element(triangle[n - 1], triangle[n - 1] + n);
 
     return 0;
 }
