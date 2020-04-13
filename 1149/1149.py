@@ -13,13 +13,13 @@ for i in range(N):
         continue
     
     for j in range(3):
-        candidatePrice = (0, 1000001)
+        candidatePrice = 1000001
 
         for k in range(3):
             if not j == k:
-                if candidatePrice[1] > costs[i - 1][k]:
-                    candidatePrice = (k, costs[i - 1][k])
+                if candidatePrice > costs[i - 1][k]:
+                    candidatePrice = costs[i - 1][k]
             
-        costs[i][j] += prices[i][j] + candidatePrice[1]
+        costs[i][j] = prices[i][j] + candidatePrice
     
 print(min(costs[-1]))
