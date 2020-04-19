@@ -10,15 +10,15 @@ int main(void)
 
     int num = 1;
     int i = 1;
-    int target = 0;
-    cin >> target;
+    int N = 0;
+    cin >> N;
 
     while (true)
     {
-        if (target > num)
+        if (N > num)
         {
             num += 6 * i;
-            i += 1;
+            i++;
             continue;
         }
         break;
