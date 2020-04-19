@@ -9,7 +9,7 @@ while True:
     if target > num:
         num += 6 * i
         i += 1
-    else:
-        break
+        continue
+    break
 
 print(i)
