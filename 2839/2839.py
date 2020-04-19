@@ -2,20 +2,20 @@ import sys
 input = sys.stdin.readline
 
 count = 0
-n = int(input())
+N = int(input())
 
-count += n // 5
-temp = n % 5
+count += N // 5
+temp = N % 5
 
-while temp != n:
+while temp != N:
     if temp % 3 != 0:
         temp += 5
         count -= 1
     else:
         count += temp // 3
-        temp = n % 3
+        temp = N % 3
         print(count)
-        exit()
+        sys.exit(0)
 
 if temp % 3 == 0:
     count += temp // 3
