@@ -26,4 +26,4 @@ for i in range(N):
                 if memoization[i][y]:
                     memoization[i][j] += memoization[i][y]
 
-print(memoization[N - 1][N - 1])
+print(memoization[-1][-1])
