@@ -22,15 +22,15 @@ for i in range(N):
                 memoization[i][j] = memoization[i][j - 1]
 
 lcsLength = memoization[-1][-1]
-lcsString = [""] * lcsLength
+stack = []
 
 for i in range(N - 1, 0, -1):
     for j in range(1, M):
         if memoization[i][j] == lcsLength:
             if str1[j] == str2[i]:
-                lcsString[lcsLength - 1] = str1[j]
+                stack.append(str1[j])
                 lcsLength -= 1
                 break
            
 print(memoization[-1][-1])
-print(*lcsString, sep="")
+print(*(stack.pop() for _ in range(len(stack))), sep="")

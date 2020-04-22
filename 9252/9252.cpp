@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -45,7 +44,7 @@ int main(void)
     }
 
     int lcsLength = memoization[N - 1][M - 1];
-    vector<char> lcsString(lcsLength, 'a');
+    vector<char> stack;
 
     for (int i = N - 1; i > 0; i--)
     {
@@ -55,7 +54,7 @@ int main(void)
             {
                 if (str1[j] == str2[i])
                 {
-                    lcsString[lcsLength - 1] = str1[j];
+                    stack.push_back(str1[j]);
                     lcsLength--;
                     break;
                 }
@@ -63,9 +62,13 @@ int main(void)
         }
     }
 
-    cout << memoization[N - 1][M - 1] << '\n';
-    for (int i = 0; i < lcsString.size(); i++)
-        cout << lcsString[i];
+    lcsLength = memoization[N - 1][M - 1];
+    cout << lcsLength << '\n';
+    for (int i = 0; i < lcsLength; i++)
+    {
+        cout << stack.back();
+        stack.pop_back();
+    }
 
     return 0;
 }
