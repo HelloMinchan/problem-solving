@@ -57,8 +57,6 @@ int main(void) {
 
 				if (countLength == 3)
 					arr[i][j] = minLength + 1;
-				else
-					arr[i][j] = arr[i][j];
 				
 				if (maxLength < arr[i][j])
 					maxLength = arr[i][j];
