@@ -14,12 +14,12 @@ int main(void)
 
     priority_queue<int> pq;
 
-    int input = 0;
+    int value = 0;
     for (int i = 0; i < N; i++)
     {
-        cin >> input;
+        cin >> value;
 
-        if (!input)
+        if (!value)
         {
             try
             {
@@ -34,7 +34,7 @@ int main(void)
             }
         }
         else
-            pq.push(input);
+            pq.push(value);
     }
 
     return 0;
