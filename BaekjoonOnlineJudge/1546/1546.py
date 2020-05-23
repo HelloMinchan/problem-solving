@@ -1,0 +1,1 @@
+print((lambda _, arr:sum(list(map(lambda x: x / max(arr) * 100, arr))) / len(arr))(input(), list(map(int, input().split()))))
