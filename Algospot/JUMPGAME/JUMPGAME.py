@@ -9,11 +9,11 @@ def DFS(i, j):
         return 1
     
     if memoization[i][j] != -1:
-        return 0
+        return memoization[i][j]
     
-    memoization[i][j] = 0
+    memoization[i][j] = DFS(i + ground[i][j], j) or DFS(i, j + ground[i][j])
 
-    return DFS(i + ground[i][j], j) or DFS(i, j + ground[i][j])
+    return memoization[i][j]
 
 
 C = int(input())
