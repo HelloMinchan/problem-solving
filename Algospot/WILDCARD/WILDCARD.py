@@ -2,72 +2,35 @@ import sys
 input = sys.stdin.readline
 
 
-def inspect(i, j):
-    if i == len(wildStr) and j == len(compareStr):
-        return True
+def isMatch(p1, p2):
+    if memoization[p1][p2] != -1:
+        return memoization[p1][p2]
     
-    if i == len(wildStr) and j != len(compareStr):
-        return False
+    while p1 < len(W) and p2 < len(word) and (W[p1] == "?" or W[p1] == word[p2]):
+        memoization[p1][p2] = isMatch(p1 + 1, p2 + 1)
+        return memoization[p1][p2]
     
-    if i != len(wildStr) and j == len(compareStr):
-        starCheck = True
+    if p1 == len(W):
+        memoization[p1][p2] = (p2 == len(word))
+        return memoization[p1][p2]
 
-        for k in range(i, len(wildStr)):
-            if wildStr[k] != "*":
-                starCheck = False
-                break
-
-        if starCheck:
-            return True
-        else:
-            return False
+    if W[p1] == "*":
+        if isMatch(p1 + 1, p2) or (p2 < len(word) and isMatch(p1, p2 + 1)):
+            memoization[p1][p2] = 1
+            return memoization[p1][p2]
     
-    if wildStr[i] == compareStr[j]:
-        return inspect(i + 1, j + 1)
-    
-    if wildStr[i] == "?":
-        return inspect(i + 1, j + 1)
-    
-    if wildStr[i] == "*":
-        if i == len(wildStr) - 1:
-            return True
-
-        if wildStr[i + 1] == "*":
-            for k in range(i + 1, len(wildStr)):
-                if wildStr[k] == "*":
-                    continue
-                else:
-                    if k == len(wildStr) - 1:
-                        if wildStr[k] == compareStr[-1]:
-                            return True
-                        else:
-                            return False
-                    else:
-                        return inspect(k, j)
-
-            return inspect(i + 1, j)
-
-        if wildStr[i + 1] == compareStr[j]:
-            return inspect(i + 1, j)
-        else:
-            return inspect(i, j + 1)
+    memoization[p1][p2] = 0
+    return memoization[p1][p2]
 
 
 C = int(input())
-wildStr = ""
-compareStr = ""
 
 for _ in range(C):
-    wildStr = input().rstrip()
+    W = input().rstrip()
     N = int(input())
-
-    memoization = []
-
-    for _ in range(N):
-        compareStr = input().rstrip()
-
-        if inspect(0, 0):
-            memoization.append(compareStr)
+    words = sorted([input().rstrip() for _ in range(N)])
+    memoization = [[-1] * 101 for _ in range(101)]
     
-    for i in range(len(memoization)):
-        print(memoization[i])
+    for word in words:
+        if isMatch(0, 0):
+            print(word)
