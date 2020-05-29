@@ -11,8 +11,6 @@ for _ in range(C):
     while len(soldiers) != 2:
         del soldiers[i]
         i += K - 1
-        if i > len(soldiers) - 1:
-            i -= len(soldiers)
         i %= len(soldiers)
     
     print(*soldiers)
