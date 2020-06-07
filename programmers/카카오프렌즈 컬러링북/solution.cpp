@@ -16,16 +16,20 @@ void BFS(int color, int dx[], int dy[], vector<vector<int>> &picture, int m, int
 
     int i = 0, j = 0;
     int ii = 0, jj = 0;
-    int count = -1;
+    int count = 0;
 
     while (!q.empty())
     {
-        count++;
-
         i = q.front().first;
         j = q.front().second;
 
         q.pop();
+
+        if (visit[i][j])
+            continue;
+
+        visit[i][j] = true;
+        count++;
 
         for (int way = 0; way < 4; way++)
         {
@@ -38,11 +42,7 @@ void BFS(int color, int dx[], int dy[], vector<vector<int>> &picture, int m, int
             if (picture[ii][jj] != color)
                 continue;
 
-            if (!visit[ii][jj])
-            {
-                visit[ii][jj] = true;
-                q.push({ii, jj});
-            }
+            q.push({ii, jj});
         }
     }
 
