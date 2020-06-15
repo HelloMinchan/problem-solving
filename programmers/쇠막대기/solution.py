@@ -6,7 +6,7 @@ def solution(arrangement):
         if arrangement[i] == '(':
             stack.append('(')
         else:
-            temp = stack.pop()
+            stack.pop()
             
             if arrangement[i - 1] == ')':
                 answer += 1
