@@ -16,7 +16,8 @@ def union(f1, f2):
 
     if foundF1 == foundF2:
         return
-    elif foundF1 < foundF2:
+        
+    if foundF1 < foundF2:
         count[foundF1] += count[foundF2]
         table[foundF2] = foundF1
     else:
