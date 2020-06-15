@@ -14,10 +14,12 @@ def union(f1, f2):
     foundF1 = find(f1)
     foundF2 = find(f2)
 
-    if foundF1 < foundF2:
+    if foundF1 == foundF2:
+        return
+    elif foundF1 < foundF2:
         count[foundF1] += count[foundF2]
         table[foundF2] = foundF1
-    elif foundF1 > foundF2:
+    else:
         count[foundF2] += count[foundF1]
         table[foundF1] = foundF2
 
