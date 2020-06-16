@@ -38,14 +38,19 @@ N = int(input())
 ans = 0
 disjointSet = [x for x in range(N)]
 
-coords = [list(map(int, input().split())) for _ in range(N)]
+coords = [list(map(int, input().split())) + [x] for x in range(N)]
 
 tunnel = []
-for i in range(N):
-    for j in range(i + 1, N):
-        dist = min(abs(coords[i][0] - coords[j][0]), abs(coords[i][1] - coords[j][1]), abs(coords[i][2] - coords[j][2]))
 
-        tunnel.append((dist, i, j))
+coords.sort()
+for i in range(N - 1):
+    tunnel.append((abs(coords[i][0] - coords[i + 1][0]), coords[i][3], coords[i + 1][3]))
+coords.sort(key=lambda x: x[1])
+for i in range(N - 1):
+    tunnel.append((abs(coords[i][1] - coords[i + 1][1]), coords[i][3], coords[i + 1][3]))
+coords.sort(key=lambda x: x[2])
+for i in range(N - 1):
+    tunnel.append((abs(coords[i][2] - coords[i + 1][2]), coords[i][3], coords[i + 1][3]))
 
 tunnel.sort()
 
