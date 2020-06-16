@@ -31,10 +31,12 @@ def kruskal():
     count = 0
     for w, sv, dv in roads:
         if union(sv, dv):
+            if count == N - 2:
+                break
+            
+            ans += w
+            
             count += 1
-
-            if count < N - 1:
-                ans += w
 
 
 N, M = map(int, input().split())
