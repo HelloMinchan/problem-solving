@@ -4,7 +4,7 @@ def solution(name):
     
     shouldChange = 0
     for n in name:
-        if n != "A":
+        if n != 'A':
             shouldChange += 1
     
     if not shouldChange:
@@ -15,10 +15,10 @@ def solution(name):
     index = 0
     
     while 1:
-        if name[index] != "A":
-            answer += min(ord('Z') - ord(name[index]) + 1, ord(name[index]) - ord("A"))
+        if name[index] != 'A':
+            answer += min(ord('Z') - ord(name[index]) + 1, ord(name[index]) - ord('A'))
             
-            name[index] = "A"
+            name[index] = 'A'
             shouldChange -= 1
         
         if not shouldChange:
@@ -37,11 +37,11 @@ def solution(name):
             if goRight > len(name) - 1:
                 goRight = 0
 
-            if name[goRight] != "A":
+            if name[goRight] != 'A':
                 answer += move
                 index = goRight
                 break
-            elif name[goLeft] != "A":
+            elif name[goLeft] != 'A':
                 answer += move
                 index = goLeft
                 break
