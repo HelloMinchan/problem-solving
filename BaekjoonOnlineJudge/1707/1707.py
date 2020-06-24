@@ -11,7 +11,7 @@ def DFS(sv, mark):
             if not DFS(i, -mark):
                 return False
         else:
-            if visit[i] == visit[sv]:
+            if visit[i] == mark:
                 return False
     return True
 
