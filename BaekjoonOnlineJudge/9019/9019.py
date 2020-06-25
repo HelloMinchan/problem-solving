@@ -26,22 +26,23 @@ def BFS(origin):
                     tempTarget = 9999
                 tempOrder = order + "S"
             
-            n1000 = tempTarget // 1000
-            n100 = tempTarget // 100 - n1000 * 10
-            n10 = tempTarget // 10 - n1000 * 100 - n100 * 10
-            n1 = tempTarget // 1 - n1000 * 1000 - n100 * 100 - n10 * 10
+            else:
+                n1000 = tempTarget // 1000
+                n100 = tempTarget // 100 - n1000 * 10
+                n10 = tempTarget // 10 - n1000 * 100 - n100 * 10
+                n1 = tempTarget // 1 - n1000 * 1000 - n100 * 100 - n10 * 10
 
-            if i == 2:
-                tempTarget = (tempTarget // 1 - n1000 * 1000) * 10 + n1000
+                if i == 2:
+                    tempTarget = (tempTarget // 1 - n1000 * 1000) * 10 + n1000
 
-                tempOrder = order + "L"
+                    tempOrder = order + "L"
 
-            if i == 3:
-                tempTarget //= 10
-                tempTarget += n1 * 1000
+                if i == 3:
+                    tempTarget //= 10
+                    tempTarget += n1 * 1000
 
-                tempOrder = order + "R"
-            
+                    tempOrder = order + "R"
+                
             if tempTarget == B:
                 return tempOrder
 
