@@ -53,5 +53,9 @@ for i in range(3):
             cur = j + (3 * i)
         visit += puzzle[i][j]
 
+if visit == "123456780":
+    print(0)
+    sys.exit(0)
+
 memoization[visit] = 1
 print(BFS(cur, visit))
