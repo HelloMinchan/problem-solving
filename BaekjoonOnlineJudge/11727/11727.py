@@ -13,6 +13,6 @@ for i in range(n + 1):
         memoization[i] = 3
         continue
 
-    memoization[i] = (memoization[i - 1] + (memoization[i - 2] * 2))
+    memoization[i] = (memoization[i - 1] + (memoization[i - 2] * 2)) % 10007
 
-print(memoization[-1] % 10007)
+print(memoization[-1])
