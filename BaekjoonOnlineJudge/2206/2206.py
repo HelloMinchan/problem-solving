@@ -5,7 +5,6 @@ input = sys.stdin.readline
 def BFS(x, y):
     hq = []
     visit[0][x][y] = True
-    visit[1][x][y] = True
     heapq.heappush(hq, (1, 0, x, y))
 
     while hq:
@@ -30,7 +29,7 @@ def BFS(x, y):
                     heapq.heappush(hq , (d + 1, w + 1, ii, jj))
                 else:
                     heapq.heappush(hq, (d + 1, w, ii, jj))
-                    
+
     return -1
 
 
