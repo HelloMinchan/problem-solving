@@ -2,32 +2,29 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-lines = []
 
-for _ in range(N):
-    s, n = map(int, input().split())
-    lines.append((s, n))
+dots = [list(map(int, input().split())) for _ in range(N)]
 
-lines.sort()
-ans = 0
-bS = bE = 0
+dots.sort()
 
-for s, e in lines:
-    if not ans:
-        ans = abs(e - s)
-        bS = s
-        bE = e
+start = 0
+end = 0
+answer = 0
+
+for s, e in dots:
+    if not start:
+        start = s
+        end = e
         continue
 
-    if bS <= s and bE >= e:
-        continue
-    
-    ans += abs(e - s)
+    if end >= s:
+        if end < e:
+            end = e
+    else:
+        answer += end - start
+        start = s
+        end = e
 
-    if bE > s:
-        ans -= abs(bE - s)
-    
-    bS = s
-    bE = e
+answer += end - start
 
-print(ans)
+print(answer)
