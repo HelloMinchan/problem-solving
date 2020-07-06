@@ -38,6 +38,8 @@ class Trie():
         if curr_node.data != None:
             return True
         
+        return False
+        
 
 N, M = map(int, input().split())
 
