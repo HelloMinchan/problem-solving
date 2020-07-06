@@ -6,20 +6,19 @@ def gFind(s, e):
     if s >= e:
         return 0
 
-    length = 0
+    if memoization[s][e] != -1:
+        return memoization[s][e]
 
-    for i in range(s, e):
-        if DNA[i] == 'a' and DNA[e] == 't' or DNA[i] == 'g' and DNA[e] == 'c':
-            memoization[i][e] = max(length, gFind(i + 1, e - 1) + 2 + gFind(e + 1, e))
-        elif DNA[i] == 'a' and DNA[i] == 'g':
-            memoization[i][e] = max(length, gFind(i + 1, e))
-        length = max(length, gFind(s, e - 1))
-
-    return length
+    for i in range(s, e + 1):
+        if (DNA[s] == 'a' and DNA[i] == 't') or (DNA[s] == 'g' and DNA[i] == 'c'):
+            memoization[s][e] = max(memoization[s][e], gFind(s + 1, i - 1) + 2 + gFind(i + 1, e))
+        memoization[s][e] = max(memoization[s][e], gFind(s + 1, i) + gFind(i + 1, e))
+        
+    return memoization[s][e]
     
 
 DNA = input().rstrip()
 
-memoization = [[0] * 501 for _ in range(501)]
+memoization = [[-1] * 501 for _ in range(501)]
         
 print(gFind(0, len(DNA) - 1))

@@ -1,18 +1,33 @@
 import sys
 input = sys.stdin.readline
 
+
+def DFS(start):
+    if start >= N:
+        return 0
+    
+    if memoization[start] != -1:
+        return memoization[start]
+    
+    for i in range(start, N):
+        memoization[start] = max(memoization[start], seg[start][i] + DFS(i + 1))
+
+    return memoization[start]
+
+
 N = int(input())
-scores = [0] + list(map(int, input().split()))
+scores = list(map(int, input().split()))
 
-memoization = [0] * (N + 1)
+seg = [[0] * 1001 for _ in range(1001)]
 
-for i in range(1, N + 1):
-    maxNum = 0
-    minNum = 2147483647
+for i in range(N - 1):
+    minScore = scores[i]
+    maxScore = scores[i]
+    for j in range(i + 1, N):
+        minScore = min(minScore, scores[j])
+        maxScore = max(maxScore, scores[j])
+        seg[i][j] = maxScore - minScore
 
-    for j in range(i, 0, -1):
-        maxNum = max(maxNum, scores[j])
-        minNum = min(minNum, scores[j])
-        memoization[i] = max(memoization[i], maxNum - minNum + memoization[j - 1])
+memoization = [-1] * 1001
 
-print(memoization[-1])
+print(DFS(0))
