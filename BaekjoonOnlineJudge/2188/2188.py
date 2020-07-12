@@ -3,6 +3,9 @@ input = sys.stdin.readline
 
 
 def DFS(a):
+    if visit[a]:
+        return False 
+
     visit[a] = True
 
     for b in adjList[a]:
@@ -31,9 +34,8 @@ for i in range(N):
 match = 0
 
 for i in range(N):
-    if A[i] == -1:
-        visit = [False] * MAX
-        if DFS(i):
-            match += 1
+    visit = [False] * MAX
+    if DFS(i):
+        match += 1
 
 print(match)
