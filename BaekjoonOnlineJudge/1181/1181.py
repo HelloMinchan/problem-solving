@@ -1,5 +1,5 @@
 import sys
 input = sys.stdin.readline
 
-words = set([input().rstrip() for _ in range(int(input()))])
-print(*sorted(words, key=lambda words: (len(words), words[:])), sep="\n")
+words = sorted(list(set([input().rstrip() for _ in range(int(input()))])), key=lambda x: (len(x), x[:]))
+print("\n".join(words))
