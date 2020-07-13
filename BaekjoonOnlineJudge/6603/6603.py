@@ -2,31 +2,29 @@ import sys
 input = sys.stdin.readline
 
 
-def backTracking(index, S, visit, printList):
-    if len(printList) == 6:
-        print(*printList)
-        return
+def DFS(si):
+    if len(stack) == 6:
+        print(*stack)
 
-    for i in range(index, len(S)):
+    for i in range(si, k):
         if not visit[i]:
             visit[i] = True
-            printList.append(S[i])
-            backTracking(i, S, visit, printList)
-
-            printList.pop()
+            stack.append(seq[i])
+            DFS(i + 1)
             visit[i] = False
+            stack.pop()
 
 
-while True:
+while 1:
     case = list(map(int, input().split()))
-    k = case[0]
-    if k == 0:
-        exit()
 
-    S = case[1:]
+    if case[0]:
+        k = case[0]; seq = case[1:]
 
-    printList = []
-    
-    visit = [False] * len(S)
-    backTracking(0, S, visit, printList)
-    print()
+        stack = []
+        visit = [False] * k
+
+        DFS(0)
+        print()
+    else:
+        break
