@@ -1,26 +1,22 @@
 import sys
 input = sys.stdin.readline
 
-exm = []
-temp = []
+n = int(input())
+seq = [int(input()) for _ in range(n)]
+stack = []
 answer = []
-t = int(input())
-for _ in range(1, t + 1):
-    exm.append(int(input()))
 
 cur = 0
-i = 1
-while True:
-    if i == t + 1:
-        break;
-    if i != exm[cur]:
-        temp.append(i)
-        answer.append('+')
-        i += 1
-    if len(temp) != 0:
-        if temp[-1] == exm[cur]:
-            temp.pop()
-            answer.append('-')
-            cur += 1
-            i -= 1
+for i in range(1, n + 1):
+    stack.append(i)
+    answer.append('+')
     
+    while cur < n and stack and stack[-1] == seq[cur]:
+        stack.pop()
+        answer.append('-')
+        cur += 1
+
+if stack:
+    print("NO")
+else:
+    print("\n".join(answer))
