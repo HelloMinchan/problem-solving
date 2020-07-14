@@ -2,41 +2,46 @@ import sys
 input = sys.stdin.readline
 
 
-def dfs(index, people, stack, visit):
-    global team
+def DFS(si):
+    if len(divide) == N // 2:
+        teamA.append(list(divide))
+        teamB.append(list(total - divide))
 
-    if len(stack) == len(people) // 2:
-        team.append(stack[:])
-        return
-        
-    for i in range(index, len(people)):
+    for i in range(si, N):
         if not visit[i]:
-            stack.append(people[i])
             visit[i] = True
-            dfs(i, people, stack, visit)
-            stack.pop()
+            divide.add(i)
+            DFS(i + 1)
             visit[i] = False
-
+            divide.remove(i)
+            
 
 N = int(input())
-people = [x for x in range(N)]
-stack = []
 visit = [False] * N
-S = [list(map(int, input().split())) for x in range(N)]
-team = []
 
-dfs(0, people, stack, visit)
+total = set(range(N))
+divide = set()
+teamA = []
+teamB = []
 
-limit = len(team)
-gap = 9001
-for i in range(limit // 2):
-    sum1 = 0
-    sum2 = 0
-    for j in range(len(team[i])):
-        for k in range(j + 1, len(team[i])):
-            sum1 += S[team[i][j]][team[i][k]] + S[team[i][k]][team[i][j]]
-            sum2 += S[team[limit - i - 1][j]][team[limit - i - 1][k]] + S[team[limit - i - 1][k]][team[limit - i - 1][j]]
-    if gap > abs(sum1 - sum2):
-        gap = abs(sum1 - sum2)
+adjMatrix = [list(map(int, input().split())) for _ in range(N)]
 
-print(gap)
+DFS(0)
+
+answer = 2147483647
+
+for i in range(len(teamA) // 2):    
+    totA = 0
+    totB = 0
+
+    for j in range(len(teamA[i]) - 1):
+        for k in range(j + 1, len(teamA[i])):
+            totA += adjMatrix[teamA[i][j]][teamA[i][k]] + adjMatrix[teamA[i][k]][teamA[i][j]]
+    
+    for j in range(len(teamB[i]) - 1):
+        for k in range(j + 1, len(teamB[i])):
+            totB += adjMatrix[teamB[i][j]][teamB[i][k]] + adjMatrix[teamB[i][k]][teamB[i][j]]
+
+    answer = min(answer, abs(totA - totB))
+
+print(answer)
