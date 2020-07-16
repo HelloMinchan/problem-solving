@@ -1,32 +1,31 @@
-import sys
+import sys, bisect
 input = sys.stdin.readline
 
 N = int(input())
-isPrime = [False, False] + [True] * (N - 1)
-primeSequence = []
 
-for i in range(2, N + 1):
+isPrime = [False] + [False] + [True] * 3999999
+primes = []
+for i in range(2, 4000001):
     if isPrime[i]:
-        primeSequence.append(i)
-        for j in range(2 * i, N + 1, i):
-            isPrime[j] = False
+        primes.append(i)
+    for j in range(i * 2, 4000001, i):
+        isPrime[j] = False
 
-startPointer = 0
-endPointer = 0
-sumValue = 0
-ans = 0
+index = bisect.bisect(primes, N)
 
-while(True):
+answer = 0
+for i in range(index):
+    sumValue = primes[i]
     if sumValue >= N:
-        sumValue -= primeSequence[startPointer]
-        startPointer += 1
-    elif endPointer == len(primeSequence):
-        break
-    else:
-        sumValue += primeSequence[endPointer]
-        endPointer += 1
+        if sumValue == N:
+            answer += 1
+        continue
+    for j in range(i + 1, index):
+        sumValue += primes[j]
 
-    if sumValue == N:
-        ans += 1
+        if sumValue >= N:
+            if sumValue == N:
+                answer += 1
+            break
 
-print(ans)
+print(answer)
