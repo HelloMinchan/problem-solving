@@ -1,31 +1,25 @@
 import sys
 input = sys.stdin.readline
 
-stairNum = int(input())
-stairs = [int(input()) for _ in range(stairNum)]
-memoization = [0] * stairNum
 
-if stairNum == 1:
-    print(stairs[0])
-    sys.exit(0)
-if stairNum == 2:
-    print(stairs[0] + stairs[1])
-    sys.exit(0)
+def DFS(N):
+    if N == 1 or N == 0:
+        return stairs[N]
+    
+    if N == 2:
+        return stairs[1] + stairs[2]
 
-for i in range(stairNum):
-    if not i:
-        memoization[0] = stairs[0]
-    elif i == 1:
-        memoization[1] = stairs[0] + stairs[1]
-    elif i == 2:
-        if stairs[0] + stairs[2] > stairs[1] + stairs[2]:
-            memoization[2] = stairs[0] + stairs[2]
-        else:
-            memoization[2] = stairs[1] + stairs[2]
-    else:
-        if stairs[i] + stairs[i - 1] + memoization[i - 3] > stairs[i] + memoization[i - 2]:
-            memoization[i] = stairs[i] + stairs[i - 1] + memoization[i - 3]
-        else:
-            memoization[i] = stairs[i] + memoization[i - 2]
+    if memoization[N] != -1:
+        return memoization[N]
 
-print(memoization[-1])
+    memoization[N] = max(DFS(N - 3) + stairs[N - 1] + stairs[N], DFS(N - 2) + stairs[N])
+
+    return memoization[N]
+
+
+N = int(input())
+stairs = [0] + [int(input()) for _ in range(N)]
+memoization = [-1] * (N + 1)
+
+print(DFS(N))
+

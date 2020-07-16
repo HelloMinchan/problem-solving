@@ -1,42 +1,36 @@
-import sys, queue
+from collections import deque
+import sys
 input = sys.stdin.readline
 
 
-def BFS(q):
-    global K, visit, dx, time
+def BFS(x):
+    dq = deque()
+    visit[x] = True
+    dq.append((x, 0))
 
-    while not q.empty():
-        size = q.qsize()
+    while dq:
+        x, time = dq.popleft()
 
-        for _ in range(size):
-            x = q.get()
-            
-            if x == K:
-                print(time)
-                exit()
-            
-            if visit[x] == False:
-                visit[x] = True
-
-                for way in range(3):
-                    if way == 2:
-                        ii = x * dx[way]
-                    else:
-                        ii = x + dx[way]
-
-                    if ii < 0 or ii > 100000:
-                        continue
-                    
-                    q.put(ii)
-        time += 1
+        if x == K:
+            return time
         
+        for way in range(3):
+            if way == 2:
+                xx = x * 2
+            else:
+                xx = x + dx[way]
+            
+            if xx < 0 or xx > 100000:
+                continue
+
+            if not visit[xx]:
+                visit[xx] = True
+                dq.append((xx, time + 1))
+
 
 N, K = map(int, input().split())
+
 visit = [False] * 100001
 dx = [-1, 1, 2]
-time = 0
 
-q = queue.Queue()
-q.put(N)
-
-BFS(q)
+print(BFS(N))

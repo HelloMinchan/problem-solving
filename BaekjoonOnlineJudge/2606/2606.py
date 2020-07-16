@@ -1,38 +1,43 @@
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 
-def BFS(dq):
-    global visit, netWork
-
-    while len(dq):
-        virus = dq.popleft()
-
-        if not visit[virus]:
-            visit[virus] = True
-
-            for netLine in netWork[virus]:
-                if not visit[netLine]:
-                    dq.append(netLine)
+def find(target):
+    if disjointSet[target] == target:
+        return target
+    
+    disjointSet[target] = find(disjointSet[target])
+    return disjointSet[target]
 
 
-com = int(input())
-visit = [False] * (com + 1)
+def union(sv, dv):
+    findSV = find(sv)
+    findDV = find(dv)
 
-netWorking = [tuple(map(int, input().split())) for _ in range(int(input()))]
-netWork = [[0] for _ in range(com + 1)]
-dq = deque()
+    if findSV == findDV:
+        return
+    
+    if findSV < findDV:
+        disjointSet[findDV] = findSV
+    else:
+        disjointSet[findSV] = findDV
 
-for net in netWorking:
-    netWork[net[0]].append(net[1])
-    netWork[net[1]].append(net[0])
 
-for netLine in netWork[1]:
-    dq.append(netLine)
+N = int(input())
+M = int(input())
 
-BFS(dq)
+disjointSet = list(range(N + 1))
+adjList = []
 
-visit[0], visit[1] = False, False
+for _ in range(M):
+    sv, dv = map(int, input().split())
 
-print(visit.count(1))
+    adjList.append((sv, dv))
+
+for sv, dv in adjList:
+    union(sv, dv)
+
+for i in range(1, N + 1):
+    find(i)
+    
+print(disjointSet[2:].count(1))
