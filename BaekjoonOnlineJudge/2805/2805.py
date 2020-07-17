@@ -1,30 +1,33 @@
-# PyPy3 정답, Python 3 시간 초과
 import sys
 input = sys.stdin.readline
 
+
+def doCut(mid):
+    temp = 0
+
+    for h in high:
+        if h - mid > 0:
+            temp += h - mid
+    
+    return temp
+
+
 N, M = map(int, input().split())
-trees = list(map(int, input().split()))
+high = list(map(int, input().split()))
+
 left = 0
-right = max(trees)
-maxCut = 0
+right = max(high)
+answer = 0
 
 while left <= right:
-    getTree = 0
     mid = (left + right) // 2
 
-    for tree in trees:
-        if tree - mid < 0:
-            continue
-        getTree += tree - mid
+    treeLength = doCut(mid)
 
-    if getTree == M:
-        print(mid)
-        sys.exit()
-    elif getTree < M:
-        right = mid - 1
-    else:
-        if maxCut < mid:
-            maxCut = mid
+    if treeLength >= M:
+        answer = mid
         left = mid + 1
-        
-print(maxCut)
+    else:
+        right = mid - 1
+
+print(answer)

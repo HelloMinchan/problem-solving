@@ -2,14 +2,15 @@ import sys
 input = sys.stdin.readline
 
 N, K = map(int, input().split())
-coins = [int(input()) for _ in range(N)]
+cost = [int(input()) for _ in range(N)]
 
 count = 0
 
-i = N - 1
-while K:
-    count += K // coins[i]
-    K %= coins[i]
-    i -= 1
+for i in range(N - 1, -1, -1):
+    temp = K // cost[i]
+
+    count += temp
+
+    K -= cost[i] * temp
 
 print(count)

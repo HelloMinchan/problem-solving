@@ -5,12 +5,12 @@ N = int(input())
 hq = []
 
 for _ in range(N):
-    value = int(input())
+    num = int(input())
 
-    if not value:
-        try:
+    if not num:
+        if hq:
             print(heapq.heappop(hq))
-        except:
+        else:
             print(0)
     else:
-        heapq.heappush(hq, value)
+        heapq.heappush(hq, (num))

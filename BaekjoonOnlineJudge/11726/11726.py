@@ -2,16 +2,12 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
-memoization = [0] * n
+memoization = [0] * 1001
+memoization[1] = 1
+memoization[2] = 2
 
-for i in range(n):
-    if i == 0:
-        memoization[0] = 1
-        continue
-    if i == 1:
-        memoization[1] = 2
-        continue
-
+for i in range(3, n + 1):
     memoization[i] = memoization[i - 1] + memoization[i - 2]
-    
-print(memoization[-1] % 10007)
+    memoization[i] %= 10007
+
+print(memoization[n] % 10007)
