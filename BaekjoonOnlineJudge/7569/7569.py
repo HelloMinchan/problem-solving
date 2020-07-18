@@ -3,73 +3,66 @@ import sys
 input = sys.stdin.readline
 
 
-def BFS(dq):
-    global unripeCount
+def BFS():
+    global unRipedTomato
 
-    day = 0
+    day = -1
 
     while dq:
         dqSize = len(dq)
         day += 1
 
         for _ in range(dqSize):
-            i, j, k = dq.popleft()
+            k, i, j = dq.popleft()
 
+            # 위, 아래 검사
             for way in range(2):
-                ii = i + dz[way]
+                kk = k + dz[way]
 
-                if ii < 0 or ii > H - 1:
+                if kk < 0 or kk > H - 1:
                     continue
 
-                if not visit[ii][j][k] and tomatos[ii][j][k] != -1:
-                    visit[ii][j][k] = True
-                    unripeCount -= 1
-                    dq.append((ii, j, k))
+                if not visit[kk][i][j] and box[kk][i][j] != -1:
+                    visit[kk][i][j] = True
+                    unRipedTomato -= 1
+                    dq.append((kk, i, j))
             
+            # 동, 서, 남, 북 검사
             for way in range(4):
-                jj = j + dx[way]
-                kk = k + dy[way]
+                ii = i + dx[way]
+                jj = j + dy[way]
 
-                if jj < 0 or jj > N - 1 or kk < 0 or kk > M - 1:
+                if ii < 0 or ii > N - 1 or jj < 0 or jj > M - 1:
                     continue
 
-                if not visit[i][jj][kk] and tomatos[i][jj][kk] != -1:
-                    visit[i][jj][kk] = True
-                    unripeCount -= 1
-                    dq.append((i, jj, kk))
+                if not visit[k][ii][jj] and box[k][ii][jj] != -1:
+                    visit[k][ii][jj] = True
+                    unRipedTomato -= 1
+                    dq.append((k, ii, jj))
     
-    if not unripeCount:
-        return day - 1
-    else:
-        return -1
+    return day
 
 
 M, N, H = map(int, input().split())
-
-tomatos = []
-unripeCount = 0
-start = []
-visit = [[[False] * M for _ in range(N)] for _ in range(H)]
+box = [[list(map(int, input().split())) for _ in range(N)] for _ in range(H)]
+visit = [[[False for _ in range(M)] for _ in range(N)] for _ in range(H)]
 dx, dy, dz = [0, 0, -1, 1], [-1, 1, 0, 0], [-1, 1]
 
-for i in range(H):
-    floor = []
-    for j in range(N):
-        floor.append(list(map(int, input().split())))
-    tomatos.append(floor)
-
-for i in range(H):
-    for j in range(N):
-        for k in range(M):
-            if tomatos[i][j][k] == 1:
-                visit[i][j][k] = True
-                start.append((i, j, k))
-            elif tomatos[i][j][k] == 0:
-                unripeCount += 1
-
+unRipedTomato = 0
 dq = deque()
-for i, j, k in start:
-    dq.append((i, j, k))
 
-print(BFS(dq))
+for k in range(H):
+    for i in range(N):
+        for j in range(M):
+            if box[k][i][j] == 0:
+                unRipedTomato += 1
+            elif box[k][i][j] == 1:
+                visit[k][i][j] = True
+                dq.append((k, i, j))
 
+answer = BFS()
+
+if unRipedTomato:
+    print(-1)
+else:
+    print(answer)
