@@ -3,15 +3,13 @@ import sys
 input = sys.stdin.readline
 
 
-def BFS(x, y, divisionNum):
+def BFS(x, y):
+    count = 1
     dq = deque()
     dq.append((x, y))
 
-    count = 0
-
     while dq:
         i, j = dq.popleft()
-        count += 1
         for way in range(4):
             ii = i + dx[way]
             jj = j + dy[way]
@@ -19,33 +17,34 @@ def BFS(x, y, divisionNum):
             if ii < 0 or ii > N - 1 or jj < 0 or jj > M - 1:
                 continue
 
-            if not gridPaper[ii][jj]:
-                gridPaper[ii][jj] = divisionNum
+            if bluePrint[ii][jj] == 1:
+                bluePrint[ii][jj] = -1
+                count += 1
                 dq.append((ii, jj))
 
     return count
 
 
 N, M, K = map(int, input().split())
-gridPaper = [[0] * (M) for _ in range(N)]
-squares = [list(map(int, input().split())) for _ in range(K)]
-dx, dy = [1, -1, 0, 0], [0, 0, 1, -1]
+coords = [tuple(map(int, input().split())) for _ in range(K)]
+bluePrint = [[1 for _ in range(M)] for _ in range(N)]
+dx, dy = [0, 0, -1, 1], [-1, 1, 0, 0]
 
-for squares in squares:
-    for i in range(N - 1 - squares[1], N - squares[3] - 1, -1):
-        for j in range(squares[0], squares[2]):
-            if i > N - 1 or j > M - 1:
-                continue
-            gridPaper[i][j] = 1
+for coord in coords:
+    x1, y1, x2, y2 = coord
+    
+    for i in range(N - y2, N - y1):
+        for j in range(x1, x2):
+            bluePrint[i][j] = 0
 
-division = []
-divisionNum = -1
+divisionList = []
 for i in range(N):
     for j in range(M):
-        if not gridPaper[i][j] < 0 and not gridPaper[i][j]:
-            gridPaper[i][j] = divisionNum
-            division.append(BFS(i, j, divisionNum))
-            divisionNum -= 1
+        if bluePrint[i][j] == 1:
+            bluePrint[i][j] = -1
+            divisionList.append(BFS(i, j))
 
-print(len(division))
-print(*sorted(division))
+divisionList.sort()
+
+print(len(divisionList))
+print(*divisionList)
