@@ -1,14 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-n -= 1;
+n, k = map(int, input().split())
+coins = [int(input()) for _ in range(n)]
 
-i = n + 1
+memoization = [1] + [0] * k
 
-ans = 0
-while i != 0:
-    ans += (n // i + 1) * (i - (n // ((n // i) + 1)))
-    i = n // ((n // i) + 1)
+for i in range(n):
+    for j in range(coins[i], k + 1):
+        if j >= coins[i]:
+            memoization[j] += memoization[j - coins[i]]
 
-print(ans)
+print(memoization)
+print(memoization[-1])
