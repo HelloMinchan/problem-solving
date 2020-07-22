@@ -11,5 +11,4 @@ for i in range(n):
         if j >= coins[i]:
             memoization[j] += memoization[j - coins[i]]
 
-print(memoization)
 print(memoization[-1])
