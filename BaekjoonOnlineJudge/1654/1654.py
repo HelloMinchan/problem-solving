@@ -1,23 +1,30 @@
 import sys
 input = sys.stdin.readline
 
+
+def cutRAN(mid):
+    count = 0
+
+    for length in RAN:
+        count += length // mid
+    
+    return count
+        
+
 K, N = map(int, input().split())
-lans = [int(input()) for _ in range(K)]
+RAN = [int(input()) for _ in range(K)]
 
 left = 1
-right = max(lans)
+right = max(RAN)
+answer = 0
 
 while left <= right:
-    processdLans = 0
-    mid = (right + left) // 2
+    mid = (left + right) // 2
 
-    for lan in lans:
-        processdLans += lan // mid
-
-    if N <= processdLans:
-        result = mid
+    if cutRAN(mid) >= N:
+        answer = mid
         left = mid + 1
     else:
         right = mid - 1
-        
-print(result)
+
+print(answer)

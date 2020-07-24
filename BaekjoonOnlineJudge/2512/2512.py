@@ -1,28 +1,34 @@
 import sys
 input = sys.stdin.readline
 
+
+def dividend(target):
+    tot = 0
+
+    for req in require:
+        if target >= req:
+            tot += req
+        else:
+            tot += target
+            
+    return tot
+
+
 N = int(input())
-inquiredBudget = list(map(int, input().split()))
-totalBudget = int(input())
-result = 0
+require = list(map(int, input().split()))
+M = int(input())
+
 left = 0
-right = max(inquiredBudget)
+right = max(require)
+answer = 0
 
 while left <= right:
-    assignedBudget = 0
     mid = (left + right) // 2
 
-    for budget in inquiredBudget:
-        if budget - mid < 0:
-            assignedBudget += budget
-            continue
-        assignedBudget += mid
-    
-    if totalBudget < assignedBudget:
-        right = mid - 1
-    else:
-        print(result)
-        result = mid
+    if dividend(mid) <= M:
+        answer = mid
         left = mid + 1
-
-print(result)
+    else:
+        right = mid - 1
+    
+print(answer)
