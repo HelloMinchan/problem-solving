@@ -1,41 +1,44 @@
-import sys
+import sys, copy
 input = sys.stdin.readline
 
 
-def pCheck(forth, back, p):
-    if p == '<':
-        return forth < back
-    return forth > back
+def pCheck(x, L):
+    if not stack:
+        return True
+    
+    if p[L - 1] == '<':
+        if stack[-1] < x:
+            return True
+        return False
+    else:
+        if stack[-1] > x:
+            return True
+        return False
 
 
-def DFS(length, num):
-    global isFirst, maxNum, minNum
-
-    if length == k + 1:
-        if isFirst:
-            minNum = num
-            isFirst = False
-        else:
-            maxNum = num
+def DFS(L):
+    if L == k + 1:
+        answer.append(copy.deepcopy(stack))
         return
 
     for i in range(10):
         if not visit[i]:
-            if not length or pCheck(int(num[-1]), i, inequality[length - 1]):
+            if pCheck(i, L):
                 visit[i] = True
-                DFS(length + 1, num + str(i))
+                stack.append(i)
+                DFS(L + 1)
                 visit[i] = False
+                stack.pop()
 
 
 k = int(input())
+p = list(input().rstrip().split())
 
-inequality = input().rstrip().split()
 visit = [False] * 10
-isFirst = True
-maxNum = ""
-minNum = ""
+answer = []
+stack = []
 
-DFS(0, "")
+DFS(0)
 
-print(maxNum)
-print(minNum)
+print(*answer[-1], sep="")
+print(*answer[0], sep="")
