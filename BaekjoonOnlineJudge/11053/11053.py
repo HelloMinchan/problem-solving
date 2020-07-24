@@ -1,17 +1,15 @@
-import sys;
+import sys
 input = sys.stdin.readline
 
 N = int(input())
-A = list(map(int, input().split()))
-memoization = [1] * N
-maxNum = 1
+A = [0] + list(map(int, input().split()))
 
-for i in range(1, N):
+memoization = [0] * (N + 1)
+maxNum = 0
+for i in range(1, N + 1):    
     for j in range(i):
         if A[i] > A[j]:
-            if memoization[j] + 1 > memoization[i]:
-                memoization[i] = memoization[j] + 1
-                if memoization[i] > maxNum:
-                    maxNum = memoization[i]
+            memoization[i] = max(memoization[i], memoization[j] + 1)
+            maxNum = max(maxNum, memoization[i])
 
 print(maxNum)
