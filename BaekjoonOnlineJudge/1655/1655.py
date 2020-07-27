@@ -2,57 +2,22 @@ import sys, heapq
 input = sys.stdin.readline
 
 N = int(input())
-middleValue = 0
-smallHQ = []
-smallHQCount = 0
-bigHQ = []
-bigHQCount = 0
+maxHq = []
+minHq = []
 
-for i in range(N):
-    inputValue = int(input())
+for _ in range(N):
+    x = int(input())
 
-    if not i:
-        middleValue = inputValue
-        print(middleValue)
-        continue
-    
-    if inputValue >= middleValue:
-        heapq.heappush(smallHQ, (-middleValue, middleValue))
-        smallHQCount += 1
+    heapq.heappush(maxHq, -x)
 
-        if not abs(smallHQCount - bigHQCount):
-            heapq.heappush(bigHQ, (inputValue, -inputValue))
-            middleValue = -heapq.heappop(bigHQ)[1]
-            print(middleValue)
-        elif abs(smallHQCount - bigHQCount) == 2:
-            tempValue = heapq.heappop(smallHQ)[1]
-            smallHQCount -= 1
-            heapq.heappush(bigHQ, (inputValue, -inputValue))
-            bigHQCount += 1
-            heapq.heappush(bigHQ, (tempValue, -tempValue))
-            middleValue = -heapq.heappop(bigHQ)[1]
-            print(middleValue)
-        else:
-            print(middleValue)
-            heapq.heappush(bigHQ, (inputValue, -inputValue))
-            middleValue = -heapq.heappop(bigHQ)[1]
+    if len(maxHq) - len(minHq) >= 2:
+        heapq.heappush(minHq, -heapq.heappop(maxHq))
     else:
-        heapq.heappush(bigHQ, (middleValue, -middleValue))
-        bigHQCount += 1
+        if maxHq and minHq and -maxHq[0] > minHq[0]:
+            temp1 = -heapq.heappop(maxHq)
+            temp2 = heapq.heappop(minHq)
 
-        if not abs(smallHQCount - bigHQCount):
-            heapq.heappush(smallHQ, (-inputValue, inputValue))
-            middleValue = heapq.heappop(smallHQ)[1]
-            print(middleValue)
-        elif abs(smallHQCount - bigHQCount) == 2:
-            tempValue = -heapq.heappop(bigHQ)[1]
-            bigHQCount -= 1
-            heapq.heappush(smallHQ, (-inputValue, inputValue))
-            smallHQCount += 1
-            heapq.heappush(smallHQ, (-tempValue, tempValue))
-            middleValue = heapq.heappop(smallHQ)[1]
-            print(middleValue)
-        else:
-            heapq.heappush(smallHQ, (-inputValue, inputValue))
-            middleValue = heapq.heappop(smallHQ)[1]
-            print(middleValue)
+            heapq.heappush(minHq, temp1)
+            heapq.heappush(maxHq, -temp2)
+
+    print(-maxHq[0])
