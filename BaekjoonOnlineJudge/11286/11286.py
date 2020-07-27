@@ -2,15 +2,15 @@ import sys, heapq
 input = sys.stdin.readline
 
 N = int(input())
-hq = []
 
+hq = []
 for _ in range(N):
-    inputValue = int(input())
+    x = int(input())
     
-    if not inputValue:
-        try:
-            print(heapq.heappop(hq)[1])
-        except:
-            print(0)
+    if x:
+        heapq.heappush(hq, (abs(x), x))
     else:
-        heapq.heappush(hq, (abs(inputValue), inputValue))
+        if hq:
+            print(heapq.heappop(hq)[1])
+        else:
+            print(0)

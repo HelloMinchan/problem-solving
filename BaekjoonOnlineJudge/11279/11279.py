@@ -1,16 +1,16 @@
-import sys, heapq;
+import sys, heapq
 input = sys.stdin.readline
 
 N = int(input())
+
 hq = []
-
 for _ in range(N):
-    value = int(input())
-
-    if not value:
-        try:
-            print(-heapq.heappop(hq))
-        except:
-            print(0)
+    x = int(input())
+    
+    if x:
+        heapq.heappush(hq, -x)
     else:
-        heapq.heappush(hq, -value)
+        if hq:
+            print(-heapq.heappop(hq))
+        else:
+            print(0)

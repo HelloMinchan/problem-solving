@@ -2,17 +2,25 @@ import sys, heapq
 input = sys.stdin.readline
 
 N = int(input())
-hq = []
-minCompareCount = 0
+cards = [int(input()) for _ in range(N)]
+heapq.heapify(cards)
 
-for _ in range(N):
-    heapq.heappush(hq, int(input()))
+answer = 0
 
-for _ in range(N - 1):
-    compareCountA = heapq.heappop(hq)
-    compareCountB = heapq.heappop(hq)
+if N == 1:
+    answer = 0
+else:
+    while 1:
+        c1 = heapq.heappop(cards)
+        c2 = heapq.heappop(cards)
 
-    heapq.heappush(hq, compareCountA + compareCountB)
-    minCompareCount += compareCountA + compareCountB
-    
-print(minCompareCount)
+        comb = c1 + c2
+        answer += comb
+
+        heapq.heappush(cards, comb)
+
+        if len(cards) == 1:
+            break
+
+print(answer)
+
