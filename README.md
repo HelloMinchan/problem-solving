@@ -11,3 +11,7 @@ programmers
 CodeUp
 
 Algospot
+
+Hackerank
+
+Codeforces
