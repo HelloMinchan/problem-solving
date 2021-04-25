@@ -1,24 +1,32 @@
 import sys
+
 input = sys.stdin.readline
+
+def isCorrect(parens):
+    stack = []
+
+    for paren in parens:
+        if not stack:
+            stack.append(paren)
+        else:
+            if paren == ")":
+                if not stack or stack[-1] != "(":
+                    return "NO"
+                else:
+                    stack.pop()
+            else:
+                stack.append(paren)
+    
+    if stack:
+        return "NO"
+    else:
+        return "YES"
+
+
 
 T = int(input())
 
 for _ in range(T):
-    paren = list(input().rstrip())
-
-    stack = []
-    isWrong = False
-    for p in paren:
-        if p == '(':
-            stack.append(p)
-        else:
-            if stack:
-                stack.pop()
-            else:
-                isWrong = True
-                print("NO")
-                break
+    parens = list(input().rstrip())
     
-    if not isWrong:
-        print("NO" if stack else "YES")
-        
+    print(isCorrect(parens))
