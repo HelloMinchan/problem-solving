@@ -3,8 +3,6 @@ input = sys.stdin.readline
 
 numbers = list(map(int, input().rstrip()))
 
-print(numbers)
-
 answer = 0
 
 for number in numbers:
@@ -14,4 +12,3 @@ for number in numbers:
         answer *= number
 
 print(answer)
-        
