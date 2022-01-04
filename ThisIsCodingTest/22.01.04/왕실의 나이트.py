@@ -37,7 +37,6 @@ for way in range(CHESS_BOARD_LENGTH):
     if i < 0 or i > CHESS_BOARD_LENGTH - 1 or j < 0 or j > CHESS_BOARD_LENGTH - 1:
         continue
     
-    print(i, j)
     answer += 1
 
 print(answer)
