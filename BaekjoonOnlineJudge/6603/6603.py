@@ -1,30 +1,37 @@
+from re import S
 import sys
 input = sys.stdin.readline
 
+LOTTO_NUMBER_COUNT = 6
 
-def DFS(si):
-    if len(stack) == 6:
+def DFS():
+    if len(stack) >= 2:
+        if stack[-1] < stack[-2]:
+            return
+
+    if len(stack) == LOTTO_NUMBER_COUNT:
         print(*stack)
+        return
 
-    for i in range(si, k):
-        if not visit[i]:
-            visit[i] = True
-            stack.append(seq[i])
-            DFS(i + 1)
-            visit[i] = False
+    for index, number in enumerate(numbers[:]):
+        if not visit[index]:
+            visit[index] = True
+            stack.append(number)
+            DFS()
+            visit[index] = False
             stack.pop()
 
 
 while 1:
-    case = list(map(int, input().split()))
+    numbers = list(map(int, input().split()))
 
-    if case[0]:
-        k = case[0]; seq = case[1:]
-
-        stack = []
-        visit = [False] * k
-
-        DFS(0)
-        print()
-    else:
+    if numbers[0] == 0:
         break
+    
+    k = numbers[0]
+    numbers = numbers[1:]
+    visit = [False for _ in range(k)]
+    stack = []
+
+    DFS()
+    print()
