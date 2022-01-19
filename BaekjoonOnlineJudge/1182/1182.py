@@ -1,27 +1,26 @@
 import sys
 input = sys.stdin.readline
 
-
-def DFS(si):
+def DFS(start_index):
     global answer
 
-    if len(stack) > 0:
-        if sum(stack) == S:
-            answer += 1
+    if stack and sum(stack) == S:
+        answer += 1        
 
-    for i in range(si, N):
-        if not visit[i]:
-            visit[i] = True
-            stack.append(seq[i])
-            DFS(i + 1)
-            visit[i] = False
+    for index in range(start_index, len(sequence)):
+        if not visit[index]:
+            visit[index] = True
+            stack.append(sequence[index])
+            DFS(index + 1)
+            visit[index] = False
             stack.pop()
 
 
 N, S = map(int, input().split())
-seq = list(map(int, input().split()))
-visit = [False] * N
+sequence = list(map(int, input().split()))
+visit = [False for _ in range(len(sequence))]
 stack = []
+
 answer = 0
 
 DFS(0)
