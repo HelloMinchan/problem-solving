@@ -1,27 +1,28 @@
 import sys
 input = sys.stdin.readline
 
-
 def DFS():
     global answer
 
-    value = sum(stack)
-    if value >= n:
-        if value == n:
-            answer += 1
+    total = sum(stack)
+
+    if total == n:
+        answer += 1
+        return
+    elif total > n:
         return
 
-    for num in seq:
-        stack.append(num)
+    for number in numbers:
+        stack.append(number)
         DFS()
         stack.pop()
-
 
 T = int(input())
 
 for _ in range(T):
     n = int(input())
-    seq = [1, 2, 3]
+
+    numbers = [1, 2, 3]
     stack = []
     answer = 0
 
