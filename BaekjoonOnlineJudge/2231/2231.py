@@ -1,18 +1,17 @@
 import sys
+
 input = sys.stdin.readline
 
 N = int(input())
 
-cons = N
-for i in range(1, N):
-    tot = 0
-    for j in range(len(str(i))):
-        tot += int(str(i)[j])
-    if i + tot == N and cons > i:
-        cons = i
+for number in range(1, N + 1):
+    number_constructor = number
 
-if cons == N:
+    for digit_number in str(number):
+        number_constructor += int(digit_number)
+
+    if number_constructor == N:
+        print(number)
+        break
+else:
     print(0)
-    exit()
-    
-print(cons)
