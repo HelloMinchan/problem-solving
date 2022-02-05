@@ -1,20 +1,20 @@
 def solution(n, times):
-    answer = 0
     left = 0
     right = max(times) * n
-    
+    answer = 0
+
     while left <= right:
         mid = (left + right) // 2
-        
-        assess = 0
-        
-        for t in times:
-            assess += mid // t
-        
-        if assess >= n:
+
+        processing_count = 0
+
+        for time in times:
+            processing_count += mid // time
+
+        if processing_count >= n:
             answer = mid
             right = mid - 1
         else:
             left = mid + 1
-            
+
     return answer
