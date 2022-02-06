@@ -1,38 +1,39 @@
 def find(target):
-    global table
-    
-    if table[target] == target:
+    global disjoint_set
+
+    if target == disjoint_set[target]:
         return target
-    
-    table[target] = find(table[target])
-    return table[target]
+
+    disjoint_set[target] = find(disjoint_set[target])
+    return disjoint_set[target]
 
 
 def union(a, b):
-    global table
-    
+    global disjoint_set
+
     findA = find(a)
     findB = find(b)
-    
+
     if findA == findB:
         return
-    if findA < findB:
-        table[findB] = findA
+    elif findA < findB:
+        disjoint_set[findB] = findA
     else:
-        table[findA] = findB
+        disjoint_set[findA] = findB
 
-        
+
 def solution(n, computers):
-    global table
-    
-    table = [x for x in range(n)]
-    
+    global disjoint_set
+    disjoint_set = list(range(n))
+
     for i in range(n):
         for j in range(n):
-            if computers[i][j]:
+            if i != j and computers[i][j]:
                 union(i, j)
-    
+
     for i in range(n):
         find(i)
-        
-    return len(set(table))
+
+    answer = len(set(disjoint_set))
+
+    return answer

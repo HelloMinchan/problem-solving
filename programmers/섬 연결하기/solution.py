@@ -1,51 +1,43 @@
 def find(target):
-    global connectTable
-    
-    if connectTable[target] == target:
-        return target
-    
-    connectTable[target] = find(connectTable[target])
-    return connectTable[target]
+    global disjoint_set
 
-    
-def union(sv, dv):
-    global connectTable
-    
-    findSV = find(sv)
-    findDV = find(dv)
-    
-    if findSV == findDV:
+    if disjoint_set[target] == target:
+        return target
+
+    disjoint_set[target] = find(disjoint_set[target])
+    return disjoint_set[target]
+
+
+def union(a, b):
+    global disjoint_set
+
+    findA = find(a)
+    findB = find(b)
+
+    if findA == findB:
         return False
-    
-    if findSV < findDV:
-        connectTable[findDV] = findSV
+
+    elif findA < findB:
+        disjoint_set[findB] = findA
     else:
-        connectTable[findSV] = findDV
-    
+        disjoint_set[findA] = findB
+
     return True
 
 
-def kruskal(roads):
-    global answer
-    
-    for w, sv, dv in roads:
-        if union(sv, dv):
-            answer += w
-
-    
 def solution(n, costs):
-    global answer, connectTable
-    
+    global disjoint_set
     answer = 0
-    connectTable = [x for x in range(n)]
-    roads = []
-    
+
+    disjoint_set = list(range(n))
+
+    costs.sort(key=lambda el: el[2])
+
     for cost in costs:
-        roads.append((cost[2], cost[0], cost[1]))
-        roads.append((cost[2], cost[1], cost[0]))
-    
-    roads.sort()
-    
-    kruskal(roads)
-    
+        if union(cost[0], cost[1]):
+            answer += cost[2]
+
+            if len(set(disjoint_set)) == 1:
+                break
+
     return answer
