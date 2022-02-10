@@ -1,34 +1,44 @@
 import heapq
 
-def BFS(hq, di, adjList):
-    while(hq):
-        wei, vec = heapq.heappop(hq)
-        
-        if di[vec] > wei:
-            di[vec] = wei
-            
-            for w, v in adjList[vec]:
-                heapq.heappush(hq, (w+wei,v))
-        
+
+def dijkstra(hq):
+    global dist, adjacency_list
+
+    while hq:
+        wei, vertex = heapq.heappop(hq)
+
+        if dist[vertex] > wei:
+            dist[vertex] = wei
+
+            for v in adjacency_list[vertex]:
+                heapq.heappush(hq, (wei + 1, v))
+
+
 def solution(n, edge):
-    adjList = [[] for _ in range(n+1)]
+    global dist, adjacency_list
+    answer = 0
     INF = 2147483647
-    di = [INF] * (n + 1)
-    di[1] = 0
+    dist = [INF for _ in range(n + 1)]
+    dist[1] = 0
+
+    adjacency_list = [[] for _ in range(n + 1)]
+
+    for sv, dv in edge:
+        adjacency_list[sv].append(dv)
+        adjacency_list[dv].append(sv)
+
     hq = []
-    
-    for e in edge:
-        adjList[e[0]].append((1,e[1]))
-        adjList[e[1]].append((1,e[0]))
-    
-    for w, v in adjList[1]:
-        heapq.heappush(hq,(w,v))
-    
-    BFS(hq, di, adjList)
-    
-    maxDistance = 0
-    for d in di:
-        if d != INF and maxDistance < d:
-            maxDistance = d
-    
-    return di.count(maxDistance)
+
+    for v in adjacency_list[1]:
+        heapq.heappush(hq, (1, v))
+
+    dijkstra(hq)
+
+    maximum = 0
+    for d in dist:
+        if d != INF and maximum < d:
+            maximum = d
+
+    answer = dist.count(maximum)
+
+    return answer
