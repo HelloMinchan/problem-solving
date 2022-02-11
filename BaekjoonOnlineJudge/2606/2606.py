@@ -1,43 +1,32 @@
 import sys
+
 input = sys.stdin.readline
 
 
-def find(target):
-    if disjointSet[target] == target:
-        return target
-    
-    disjointSet[target] = find(disjointSet[target])
-    return disjointSet[target]
+def DFS(start_vertex):
+    global answer
+    answer += 1
+
+    for vertex in adjacency_list[start_vertex]:
+        if not visit[vertex]:
+            visit[vertex] = True
+            DFS(vertex)
 
 
-def union(sv, dv):
-    findSV = find(sv)
-    findDV = find(dv)
+answer = 0
+computer_count = int(input())
+edge = int(input())
+adjacency_list = [[] for _ in range(computer_count + 1)]
 
-    if findSV == findDV:
-        return
-    
-    if findSV < findDV:
-        disjointSet[findDV] = findSV
-    else:
-        disjointSet[findSV] = findDV
-
-
-N = int(input())
-M = int(input())
-
-disjointSet = list(range(N + 1))
-adjList = []
-
-for _ in range(M):
+for _ in range(edge):
     sv, dv = map(int, input().split())
 
-    adjList.append((sv, dv))
+    adjacency_list[sv].append(dv)
+    adjacency_list[dv].append(sv)
 
-for sv, dv in adjList:
-    union(sv, dv)
+visit = [False for _ in range(computer_count + 1)]
+visit[1] = True
 
-for i in range(1, N + 1):
-    find(i)
-    
-print(disjointSet[2:].count(1))
+DFS(1)
+
+print(answer - 1)

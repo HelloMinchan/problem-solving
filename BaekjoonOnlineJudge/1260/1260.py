@@ -1,60 +1,53 @@
-from collections import deque as Deque
-import sys
-input = sys.stdin.readline
+from collections import deque
 
-def initialize_visit_list(start_vertex):
-    global N
-    
-    visit_list = [False for _ in range(N+1)]
-    visit_list[start_vertex] = True
-
-    return visit_list
 
 def DFS(start_vertex):
-    global stack
+    if len(stack) == N:
+        return
 
-    for vertex in adjacent_list[start_vertex]:
-        if not visit_list[vertex]:
-            visit_list[vertex] = True
+    for vertex in adjacency_list[start_vertex]:
+        if not visit[vertex]:
+            visit[vertex] = True
+
             stack.append(vertex)
             DFS(vertex)
 
-def BFS(start_vertex):
-    global deque
-    answer = []
 
-    while deque:
-        start_vertex = deque.popleft()
+def BFS(dq):
+    while dq:
+        start_vertex = dq.popleft()
         answer.append(start_vertex)
 
-        for vertex in adjacent_list[start_vertex]:
-            if not visit_list[vertex]:
-                visit_list[vertex] = True
-                deque.append(vertex)
-    
-    print(*answer)  
+        for vertex in adjacency_list[start_vertex]:
+            if not visit[vertex]:
+                visit[vertex] = True
+
+                dq.append(vertex)
 
 
 N, M, V = map(int, input().split())
 
-adjacent_list = [[] for _ in range(N+1)]
+adjacency_list = [[] for _ in range(N + 1)]
 
 for _ in range(M):
-    start_vertex, destination_vertex = map(int, input().split())
+    sv, dv = map(int, input().split())
 
-    adjacent_list[start_vertex].append(destination_vertex)
-    adjacent_list[start_vertex].sort()
+    adjacency_list[sv].append(dv)
+    adjacency_list[dv].append(sv)
 
-    adjacent_list[destination_vertex].append(start_vertex)
-    adjacent_list[destination_vertex].sort()
+for i in range(N + 1):
+    adjacency_list[i].sort()
 
-    
-
-visit_list = initialize_visit_list(V)
+visit = [False for _ in range(N + 1)]
+visit[V] = True
 stack = [V]
 DFS(V)
 print(*stack)
 
-visit_list = initialize_visit_list(V)
-deque = Deque([V])
-BFS(V)
+visit = [False for _ in range(N + 1)]
+visit[V] = True
+dq = deque()
+dq.append(V)
+answer = []
+BFS(dq)
+print(*answer)

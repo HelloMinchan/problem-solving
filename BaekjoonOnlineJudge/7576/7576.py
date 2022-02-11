@@ -1,55 +1,56 @@
+# 5:53 ~ 6:09 (16분)
 from collections import deque
 import sys
+
 input = sys.stdin.readline
 
 
-def BFS(ripedTomato):
-    global tomatos, visit, dx, dy, days
-    dq = deque()
+def bfs(dq):
+    global answer, unriped_tomatos
 
-    for tomato in ripedTomato:
-        i, j = tomato
-        dq.append((i, j))
-    
-    while len(dq):
-        for i in range(len(dq)):
-            x, y = dq.popleft()
+    while dq:
+        answer += 1
 
-            if not visit[x][y]:
-                visit[x][y] = True
-                if not tomatos[x][y]:
-                    tomatos[x][y] = 1
+        for _ in range(len(dq)):
+            i, j = dq.popleft()
 
-                for way in range(4):
-                    ii, jj = x + dx[way], y + dy[way]
-                    
-                    if ii < 0 or ii > N - 1 or jj < 0 or jj > M - 1 or tomatos[ii][jj] == -1:
-                        continue
+            for way in range(4):
+                ii = i + dx[way]
+                jj = j + dy[way]
+
+                if ii < 0 or ii > N - 1 or jj < 0 or jj > M - 1:
+                    continue
+
+                if box[ii][jj] == "0" and not visit[ii][jj]:
+                    visit[ii][jj] = True
+                    unriped_tomatos -= 1
 
                     dq.append((ii, jj))
-                    
-        days += 1
 
 
+answer = -1
 M, N = map(int, input().split())
-tomatos = [list(map(int, input().split())) for _ in range(N)]
-visit = [[False] * M for _ in range(N)]
-dx, dy = [1, -1, 0, 0], [0, 0, 1, -1]
-days = 0
-ripedTomato = []
+
+box = [list(input().split()) for _ in range(N)]
+visit = [[False for _ in range(M)] for _ in range(N)]
+unriped_tomatos = 0
+dx = [0, 0, -1, 1]
+dy = [1, -1, 0, 0]
+
+dq = deque()
 
 for i in range(N):
     for j in range(M):
-        if tomatos[i][j] == 1:
-            ripedTomato.append((i, j))
+        if box[i][j] == "0":
+            unriped_tomatos += 1
+        elif box[i][j] == "1":
+            visit[i][j] = True
+            dq.append((i, j))
 
-BFS(ripedTomato)
+bfs(dq)
 
-for tomatoLine in tomatos:
-    if tomatoLine.count(0):
-        print(-1)
-        exit()
-if days == 1:
-    print(days - 1)
+
+if unriped_tomatos:
+    print(-1)
 else:
-    print(days - 2)
+    print(answer)
