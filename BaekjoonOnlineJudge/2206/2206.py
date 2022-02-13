@@ -1,18 +1,17 @@
+# 9:11 ~
+
 import sys, heapq
+
 input = sys.stdin.readline
 
 
-def BFS(i, j):
-    hq = []
-    visit[0][i][j] = True
-    heapq.heappush(hq, (1, 0, i, j))
-    
+def dijkstra(hq):
     while hq:
-        dist, count, i, j = heapq.heappop(hq)
+        before_dist, i, j, break_count = heapq.heappop(hq)
 
         if i == N - 1 and j == M - 1:
-            return dist
-            
+            return before_dist
+
         for way in range(4):
             ii = i + dx[way]
             jj = j + dy[way]
@@ -20,25 +19,33 @@ def BFS(i, j):
             if ii < 0 or ii > N - 1 or jj < 0 or jj > M - 1:
                 continue
 
-            if not visit[count][ii][jj]:
-                if count < 1:
-                    if matrix[ii][jj] == '1':
-                        visit[count][ii][jj] = True
-                        heapq.heappush(hq, (dist + 1, count + 1, ii, jj))
-                    else:
-                        visit[count][ii][jj] = True
-                        heapq.heappush(hq, (dist + 1, count, ii, jj))
-                else:
-                    if matrix[ii][jj] == '0':
-                        visit[count][ii][jj] = True
-                        heapq.heappush(hq, (dist + 1, count, ii, jj))
-                        
+            if board[ii][jj] == "0":
+                if dist[break_count][ii][jj] > before_dist + 1:
+                    dist[break_count][ii][jj] = before_dist + 1
+                    heapq.heappush(hq, (before_dist + 1, ii, jj, break_count))
+            else:
+                if break_count == 0:
+                    if dist[break_count + 1][ii][jj] > before_dist + 1:
+                        dist[break_count + 1][ii][jj] = before_dist + 1
+                        heapq.heappush(hq, (before_dist + 1, ii, jj, break_count + 1))
+
     return -1
 
 
-N, M = map(int, (input().split()))
-matrix = [list(input().rstrip()) for _ in range(N)]
-dx, dy = [0, 0, -1, 1], [-1, 1, 0, 0]
-visit = [[[False] * M for _ in range(N)] for _ in range(2)]
+N, M = map(int, input().split())
 
-print(BFS(0, 0))
+board = [list(input().rstrip()) for _ in range(N)]
+INF = 2147483647
+dist = [[[INF for _ in range(M)] for _ in range(N)] for _ in range(2)]
+
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+
+hq = []
+
+dist[0][0][0] = 0
+dist[1][0][0] = 0
+
+heapq.heappush(hq, (1, 0, 0, 0))
+
+print(dijkstra(hq))

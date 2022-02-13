@@ -1,36 +1,47 @@
-from collections import deque
-import sys
+# 7:06 ~ 7:31 (25분)
+import sys, heapq
+
 input = sys.stdin.readline
 
 
-def BFS(x):
-    dq = deque()
-    visit[x] = True
-    dq.append((x, 0))
+def BFS(hq):
+    while hq:
+        before_sec, before_loc = heapq.heappop(hq)
 
-    while dq:
-        x, time = dq.popleft()
+        if before_loc == K:
+            return before_sec
 
-        if x == K:
-            return time
-        
-        for way in range(3):
-            if way == 2:
-                xx = x * 2
-            else:
-                xx = x + dx[way]
-            
-            if xx < 0 or xx > 100000:
+        for way in range(2):
+            new_loc = before_loc + dx[way]
+
+            if new_loc < 0 or new_loc > 100000:
                 continue
 
-            if not visit[xx]:
-                visit[xx] = True
-                dq.append((xx, time + 1))
+            if dist[new_loc] > before_sec + 1:
+                dist[new_loc] = before_sec + 1
+
+                heapq.heappush(hq, (before_sec + 1, new_loc))
+
+        new_loc = before_loc * 2
+        if new_loc < 0 or new_loc > 100000:
+            continue
+
+        if dist[new_loc] > before_sec + 1:
+            dist[new_loc] = before_sec + 1
+
+            heapq.heappush(hq, (before_sec + 1, new_loc))
+
+    print(hq)
 
 
 N, K = map(int, input().split())
+INF = 2147483647
+dist = [INF for _ in range(100001)]
+dist[N] = 0
 
-visit = [False] * 100001
-dx = [-1, 1, 2]
+dx = [-1, 1]
+hq = []
 
-print(BFS(N))
+heapq.heappush(hq, (0, N))
+
+print(BFS(hq))
