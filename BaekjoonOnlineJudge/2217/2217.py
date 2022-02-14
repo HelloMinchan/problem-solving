@@ -1,11 +1,14 @@
+# 5:40 ~
+
 import sys
+
 input = sys.stdin.readline
 
 N = int(input())
-ropes = sorted([int(input()) for _ in range(N)], reverse=True)
+ropes = sorted([int(input()) for _ in range(N)])
+answer = 0
 
-maxW = 0
 for i, rope in enumerate(ropes):
-    maxW = max(maxW, rope * (i + 1))
+    answer = max(answer, rope * (N - i))
 
-print(maxW)
+print(answer)
