@@ -1,23 +1,23 @@
+# 11:40 ~ 11:46 (6분)
 import sys
+
 input = sys.stdin.readline
 
 
-def DFS(n):
-    # 기저 사례
-    if memoization[n]:
-        return memoization[n]
+def dfs(number):
+    if number == 1 or number == 2:
+        return 1
 
-    # 기저 사례
-    if n < 2:
-        return n
+    if dp_table[number]:
+        return dp_table[number]
 
-    memoization[n] = DFS(n - 1) + DFS(n - 2)
+    dp_table[number] = dfs(number - 1) + dfs(number - 2)
 
-    return memoization[n]
+    return dp_table[number]
 
 
-N = int(input())
+n = int(input())
 
-memoization = [0] * (N + 1)
+dp_table = [0 for _ in range(n + 1)]
 
-print(DFS(N))
+print(dfs(n))

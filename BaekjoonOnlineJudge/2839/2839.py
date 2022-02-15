@@ -1,24 +1,23 @@
+# 10:57 ~ 11:11 (14분)
 import sys
+
 input = sys.stdin.readline
 
-count = 0
 N = int(input())
 
-count += N // 5
-temp = N % 5
+dp_table = [-1 for _ in range(N + 1)]
 
-while temp != N:
-    if temp % 3 != 0:
-        temp += 5
-        count -= 1
+for i in range(3, N + 1):
+    if i == 3:
+        dp_table[i] = 1
+    elif i == 5:
+        dp_table[i] = 1
     else:
-        count += temp // 3
-        temp = N % 3
-        print(count)
-        sys.exit(0)
+        if dp_table[i - 5] != -1 and dp_table[i - 3] != -1:
+            dp_table[i] = min(dp_table[i - 5] + 1, dp_table[i - 3] + 1)
+        elif dp_table[i - 5] != -1:
+            dp_table[i] = dp_table[i - 5] + 1
+        elif dp_table[i - 3] != -1:
+            dp_table[i] = dp_table[i - 3] + 1
 
-if temp % 3 == 0:
-    count += temp // 3
-    print(count)
-else:
-    print(-1)
+print(dp_table[-1])
