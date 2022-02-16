@@ -1,17 +1,19 @@
+# 4:54 ~ 5:00 (6분)
+
 import sys
+
 input = sys.stdin.readline
 
 N = int(input())
-memoization = [2147483647] * 1000001
-memoization[1] = 0
-memoization[2] = 1
-memoization[3] = 1
 
-for i in range(4, N + 1):
-    if not i % 3:
-        memoization[i] = min(memoization[i], memoization[i // 3] + 1)
-    if not i % 2:
-        memoization[i] = min(memoization[i], memoization[i // 2] + 1)
-    memoization[i] = min(memoization[i], memoization[i - 1] + 1)
+dp_table = [0 for _ in range(N + 1)]
 
-print(memoization[N])
+for i in range(2, N + 1):
+    dp_table[i] = dp_table[i - 1] + 1
+
+    if i % 2 == 0:
+        dp_table[i] = min(dp_table[i], dp_table[i // 2] + 1)
+    if i % 3 == 0:
+        dp_table[i] = min(dp_table[i], dp_table[i // 3] + 1)
+
+print(dp_table[-1])

@@ -1,13 +1,27 @@
 import sys
+
+sys.setrecursionlimit(10 ** 7)
 input = sys.stdin.readline
 
+
+def dfs(number):
+    if number == 1:
+        dp_table[number] = 1
+        return dp_table[number]
+    elif number == 2:
+        dp_table[number] = 2
+        return dp_table[number]
+
+    if dp_table[number] != -1:
+        return dp_table[number]
+
+    dp_table[number] = (dfs(number - 1) + dfs(number - 2)) % 10007
+
+    return dp_table[number]
+
+
 n = int(input())
-memoization = [0] * 1001
-memoization[1] = 1
-memoization[2] = 2
 
-for i in range(3, n + 1):
-    memoization[i] = memoization[i - 1] + memoization[i - 2]
-    memoization[i] %= 10007
+dp_table = [-1 for _ in range(n + 1)]
 
-print(memoization[n] % 10007)
+print(dfs(n))
