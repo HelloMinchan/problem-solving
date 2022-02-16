@@ -1,5 +1,5 @@
-def GCD(a, b):
-    return b if not a % b else GCD(b, a % b)
+import math
 
-def solution(w,h):
-    return w * h - (w+h-GCD(w,h))
+
+def solution(w, h):
+    return w * h - (w + h - math.gcd(w, h))
