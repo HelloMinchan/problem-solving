@@ -1,16 +1,18 @@
+# 11:24 ~ 11:33 (9분)
 import sys
+
 input = sys.stdin.readline
 
 N, K = map(int, input().split())
-cost = [int(input()) for _ in range(N)]
 
-count = 0
+coins = sorted([int(input()) for _ in range(N)], reverse=True)
+answer = 0
 
-for i in range(N - 1, -1, -1):
-    temp = K // cost[i]
+now_money = K
 
-    count += temp
+for coin in coins:
+    if coin <= now_money:
+        answer += now_money // coin
+        now_money %= coin
 
-    K -= cost[i] * temp
-
-print(count)
+print(answer)
