@@ -1,29 +1,36 @@
+# 5:48 ~
+
 import sys
+
+sys.setrecursionlimit(10 ** 7)
 input = sys.stdin.readline
 
+
+def dfs(i, j):
+    if i == N - 1 and j == N - 1:
+        dp_table[i][j] += 1
+        return 1
+
+    if board[i][j] == 0:
+        return 0
+
+    if dp_table[i][j]:
+        return dp_table[i][j]
+
+    ii = i + board[i][j]
+    jj = j + board[i][j]
+
+    if ii < N:
+        dp_table[i][j] += dfs(ii, j)
+
+    if jj < N:
+        dp_table[i][j] += dfs(i, jj)
+
+    return dp_table[i][j]
+
+
 N = int(input())
-gameBoard = [list(map(int , input().split())) for _ in range(N)]
-memoization = [[0] * N for _ in range(N)]
+board = [list(map(int, input().split())) for _ in range(N)]
+dp_table = [[0 for _ in range(N)] for _ in range(N)]
 
-for i in range(N):
-    for j in range(N):
-        ii = i
-        jj = j
-        
-        for x in range(ii):
-            if gameBoard[x][j] == i - x:
-                if not x and not j:
-                    memoization[i][j] = 1
-                    break
-                if memoization[x][j]:
-                    memoization[i][j] += memoization[x][j]
-
-        for y in range(jj):
-            if gameBoard[i][y] == j - y:
-                if not y and not i:
-                    memoization[i][j] = 1
-                    break
-                if memoization[i][y]:
-                    memoization[i][j] += memoization[i][y]
-
-print(memoization[-1][-1])
+print(dfs(0, 0))

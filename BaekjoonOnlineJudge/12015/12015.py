@@ -1,27 +1,19 @@
-import sys
+# 4:47 ~ 4:54 (7분)
+
+import sys, bisect
+
 input = sys.stdin.readline
 
 N = int(input())
 A = list(map(int, input().split()))
-LIS = [0]
-length = 0
 
-for num in A:
-    if num > LIS[-1]:
-        LIS.append(num)
-        length += 1
+seq = [A[0]]
+
+for i in range(1, N):
+    if A[i] > seq[-1]:
+        seq.append(A[i])
     else:
-        left = 0
-        right = len(LIS)
+        new_i = bisect.bisect_left(seq, A[i])
+        seq[new_i] = A[i]
 
-        while right - left > 0:
-            mid = (left + right) // 2
-
-            if LIS[mid] < num:
-                left = mid + 1
-            else:
-                right = mid
-
-        LIS[right] = num
-
-print(length)
+print(len(seq))
