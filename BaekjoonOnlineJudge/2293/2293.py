@@ -1,13 +1,19 @@
+# 4:45 ~ 5:02 (17분)
+
 import sys
+
 input = sys.stdin.readline
 
 n, k = map(int, input().split())
-values = [int(input()) for _ in range(n)]
-memoization = [1] + [0] * k
 
-for i in range(n):    
-    for j in range(1, k + 1):
-        if j - values[i] >= 0:
-            memoization[j] += memoization[j - values[i]]
+coins = sorted([int(input()) for _ in range(n)])
+dp_table = [1] + [0 for _ in range(k)]
 
-print(memoization[-1])
+
+for coin in coins:
+    for money in range(1, k + 1):
+        if money - coin >= 0:
+            if dp_table[money - coin]:
+                dp_table[money] += dp_table[money - coin]
+
+print(dp_table[k])
