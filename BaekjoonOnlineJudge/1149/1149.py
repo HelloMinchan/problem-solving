@@ -1,12 +1,20 @@
 import sys
+
 input = sys.stdin.readline
 
 N = int(input())
-cost = [list(map(int, input().split())) for _ in range(N)]
+
+house = []
+for _ in range(N):
+    house.append(list(map(int, input().split())))
 
 for i in range(1, N):
-    cost[i][0] += min(cost[i - 1][1], cost[i - 1][2])
-    cost[i][1] += min(cost[i - 1][0], cost[i - 1][2])
-    cost[i][2] += min(cost[i - 1][0], cost[i - 1][1])
+    for j in range(3):
+        if j == 0:
+            house[i][j] += min(house[i - 1][j + 1], house[i - 1][j + 2])
+        elif j == 1:
+            house[i][j] += min(house[i - 1][j - 1], house[i - 1][j + 1])
+        else:
+            house[i][j] += min(house[i - 1][j - 1], house[i - 1][j - 2])
 
-print(min(cost[-1]))
+print(min(house[N - 1]))

@@ -1,26 +1,20 @@
-# 5:46 ~ 5:55 (9분)
 import sys
 
 input = sys.stdin.readline
 
 
-def dfs(number):
-    if number == 1:
-        dp_table[number] = 1
-        return dp_table[number]
-    elif number == 2:
-        dp_table[number] = 2
-        return dp_table[number]
-    elif number == 3:
-        dp_table[number] = 4
-        return dp_table[number]
+def dfs():
+    global answer
 
-    if dp_table[number]:
-        return dp_table[number]
+    if sum(stack) >= n:
+        if sum(stack) == n:
+            answer += 1
+        return
 
-    dp_table[number] += dfs(number - 1) + dfs(number - 2) + dfs(number - 3)
-
-    return dp_table[number]
+    for i in range(1, 4):
+        stack.append(i)
+        dfs()
+        stack.pop()
 
 
 T = int(input())
@@ -28,6 +22,8 @@ T = int(input())
 for _ in range(T):
     n = int(input())
 
-    dp_table = [0 for _ in range(n + 1)]
+    answer = 0
+    stack = []
+    dfs()
 
-    print(dfs(n))
+    print(answer)

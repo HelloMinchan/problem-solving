@@ -1,4 +1,3 @@
-# 11:36 ~ 12:11 (35분)
 import sys
 
 input = sys.stdin.readline
