@@ -1,53 +1,53 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 
+def dfs(sv):
+    visit[sv] = True    
 
-def DFS(start_vertex):
-    if len(stack) == N:
-        return
+    for dv in adj_list[sv]:
+        if not visit[dv]:
+            stack.append(dv)
+            dfs(dv)
+    
+    return True
 
-    for vertex in adjacency_list[start_vertex]:
-        if not visit[vertex]:
-            visit[vertex] = True
-
-            stack.append(vertex)
-            DFS(vertex)
-
-
-def BFS(dq):
+def bfs(dq):
     while dq:
-        start_vertex = dq.popleft()
-        answer.append(start_vertex)
+        sv = dq.popleft()
+        answer.append(sv)
 
-        for vertex in adjacency_list[start_vertex]:
-            if not visit[vertex]:
-                visit[vertex] = True
-
-                dq.append(vertex)
+        for dv in adj_list[sv]:
+            if not visit[dv]:
+                visit[dv] = True
+                dq.append(dv)
 
 
 N, M, V = map(int, input().split())
 
-adjacency_list = [[] for _ in range(N + 1)]
+adj_list = [[] for _ in range(N+1)]
 
 for _ in range(M):
     sv, dv = map(int, input().split())
 
-    adjacency_list[sv].append(dv)
-    adjacency_list[dv].append(sv)
+    adj_list[sv].append(dv)
+    adj_list[dv].append(sv)
 
-for i in range(N + 1):
-    adjacency_list[i].sort()
+for i in range(1, N+1):
+    adj_list[i].sort()
 
-visit = [False for _ in range(N + 1)]
-visit[V] = True
+visit = [False for _ in range(N+1)]
 stack = [V]
-DFS(V)
+dfs(V)
+
 print(*stack)
 
-visit = [False for _ in range(N + 1)]
-visit[V] = True
+visit = [False for _ in range(N+1)]
 dq = deque()
 dq.append(V)
+visit[V] = True
+
 answer = []
-BFS(dq)
+bfs(dq)
+
 print(*answer)

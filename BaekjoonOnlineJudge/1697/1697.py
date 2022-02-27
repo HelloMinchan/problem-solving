@@ -1,47 +1,33 @@
-# 7:06 ~ 7:31 (25분)
 import sys, heapq
 
 input = sys.stdin.readline
 
-
-def BFS(hq):
+def bfs(hq):
     while hq:
-        before_sec, before_loc = heapq.heappop(hq)
+        t, now = heapq.heappop(hq)
 
-        if before_loc == K:
-            return before_sec
+        if now == K:
+            print(t)
+            return
 
-        for way in range(2):
-            new_loc = before_loc + dx[way]
-
-            if new_loc < 0 or new_loc > 100000:
-                continue
-
-            if dist[new_loc] > before_sec + 1:
-                dist[new_loc] = before_sec + 1
-
-                heapq.heappush(hq, (before_sec + 1, new_loc))
-
-        new_loc = before_loc * 2
-        if new_loc < 0 or new_loc > 100000:
-            continue
-
-        if dist[new_loc] > before_sec + 1:
-            dist[new_loc] = before_sec + 1
-
-            heapq.heappush(hq, (before_sec + 1, new_loc))
-
-    print(hq)
+        if now + 1 <= 100000 and now + 1 >= -100000:
+            if not visit[now+1]:
+                visit[now+1] = True
+                heapq.heappush(hq, (t+1, now+1))
+        if now - 1 <= 100000 and now - 1 >= -100000:
+            if not visit[now-1]:
+                visit[now-1] = True
+                heapq.heappush(hq, (t+1, now-1))
+        if now * 2 <= 100000 and now * 2 >= -100000:
+            if not visit[now*2]:
+                visit[now*2] = True
+                heapq.heappush(hq, (t+1, now*2))
 
 
-N, K = map(int, input().split())
-INF = 2147483647
-dist = [INF for _ in range(100001)]
-dist[N] = 0
+N, K = map(int,input().split())
 
-dx = [-1, 1]
+visit = [False for _ in range(200001)]
 hq = []
-
 heapq.heappush(hq, (0, N))
 
-print(BFS(hq))
+bfs(hq)

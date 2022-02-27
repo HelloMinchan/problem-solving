@@ -1,16 +1,12 @@
-# 4:25 ~ 4:43 (18분)
 from collections import deque
 import sys
-
 input = sys.stdin.readline
 
-
-def BFS(dq):
-    global count
-
+def bfs(dq):
+    count = 0
     while dq:
-        i, j = dq.popleft()
         count += 1
+        i, j = dq.popleft()
 
         for way in range(4):
             ii = i + dx[way]
@@ -18,31 +14,32 @@ def BFS(dq):
 
             if ii < 0 or ii > N - 1 or jj < 0 or jj > N - 1:
                 continue
-
-            if house_map[ii][jj] == "1" and not visit[ii][jj]:
+            
+            if not visit[ii][jj] and board[ii][jj] == "1":
                 visit[ii][jj] = True
-                dq.append((ii, jj))
+                dq.append((ii,jj))
 
+    answer.append(count)
 
-answers = []
 N = int(input())
-house_map = [list(input().rstrip()) for _ in range(N)]
+
+board = [list(input().rstrip()) for _ in range(N)]
 visit = [[False for _ in range(N)] for _ in range(N)]
 
-dx = [0, 0, -1, 1]
-dy = [1, -1, 0, 0]
+dx = [0,0,-1,1]
+dy = [-1,1,0,0]
+answer = []
 
 for i in range(N):
     for j in range(N):
-        if house_map[i][j] == "1" and not visit[i][j]:
-            count = 0
-            dq = deque()
+        if board[i][j] == "1" and not visit[i][j]:
             visit[i][j] = True
-            dq.append((i, j))
-            BFS(dq)
-            answers.append(count)
+            dq = deque()
+            dq.append((i,j))
 
-answers.sort()
-print(len(answers))
-for answer in answers:
-    print(answer)
+            bfs(dq)
+
+print(len(answer))
+
+for count in sorted(answer):
+    print(count)
