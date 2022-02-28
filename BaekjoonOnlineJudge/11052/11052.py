@@ -1,12 +1,15 @@
 import sys
+
 input = sys.stdin.readline
 
 N = int(input())
-P = [0] + list(map(int, input().split()))
-memoization = [[0] * (N + 1) for _ in range(N + 1)]
+P = [0] + list(map(int,input().split()))
 
-for i in range(1, N + 1):
-    for j in range(1, i + 1):
-        memoization[i][j] = P[j] + max(memoization[i - j])
+dp_table = [0 for _ in range(N + 1)]
 
-print(max(memoization[-1]))
+for money in range(1, N+1):
+    for i in range(1, N+1):
+        if money - i >= 0:
+            dp_table[money] = max(dp_table[money], P[i]+dp_table[money-i])
+
+print(dp_table[-1])

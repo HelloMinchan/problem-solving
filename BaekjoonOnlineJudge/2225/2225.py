@@ -1,16 +1,15 @@
 import sys
+
 input = sys.stdin.readline
 
-N, K = map(int, input().split())
-memoization = [[0] * (N + 1) for _ in range(K + 1)]
+N, K = map(int,input().split())
+dp_table = [[0 for _ in range(N+1)] for _ in range(K+1)]
 
-for i in range(N + 1):
-    memoization[1][i] = 1
+for i in range(1, K+1):
+    dp_table[i][1] = i
 
-for i in range(2, K + 1):
-    for j in range(N + 1):
-        for k in range(j + 1):
-            memoization[i][j] += memoization[i - 1][k]
-            memoization[i][j] %= 1000000000
+for i in range(1, K+1):
+    for j in range(2, N+1):
+        dp_table[i][j] = dp_table[i][j-1] + dp_table[i-1][j]
 
-print(memoization[-1][-1])
+print(dp_table[K][N] % 1000000000)
