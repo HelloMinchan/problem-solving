@@ -1,27 +1,30 @@
-def DFS(row):
+import sys
+
+input = sys.stdin.readline
+
+
+def dfs(i):
     global answer
-    
-    if row == N:
+
+    if i == N:
         answer += 1
+        return
     
-    for col in range(N):
-        if not col_check[col] and not back_slash_direction_check[col + row] and not slash_direction_check[col - row + N - 1]:
-            col_check[col] = True
-            back_slash_direction_check[col + row] = True
-            slash_direction_check[col - row + N - 1] = True
-            DFS(row + 1)
-            col_check[col] = False
-            back_slash_direction_check[col + row] = False
-            slash_direction_check[col - row + N - 1] = False
+    for j in range(N):
+        if not row_visit[j] and not slash_visit[i+j] and not back_slash_visit[i-j]:
+            row_visit[j] = slash_visit[i+j] = back_slash_visit[i-j] = True
+            dfs(i+1)
+            row_visit[j] = slash_visit[i+j] = back_slash_visit[i-j] = False
 
 
 N = int(input())
 
-col_check = [False for _ in range(N)]
-slash_direction_check = [False for _ in range(N * 2 - 1)]
-back_slash_direction_check = [False for _ in range(N * 2 - 1)]
+slash_visit = [False for _ in range(((N - 1) * 2) + 1)]
+back_slash_visit = [False for _ in range(((N - 1) * 2) + 1)]
+row_visit = [False for _ in range(N)]
+
 answer = 0
 
-DFS(0)
+dfs(0)
 
 print(answer)

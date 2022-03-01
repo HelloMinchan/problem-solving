@@ -1,26 +1,20 @@
 import sys
+
 input = sys.stdin.readline
 
-
-def DFS(index):
-    global N, M, nums, visit, stack
-
+def dfs(start):
     if len(stack) == M:
         print(*stack)
         return
 
-    for i in range(index, N):
-        if not visit[i]:
-            visit[i] = True
-            stack.append(nums[i])
-            DFS(i)
-            visit[i] = False
-            stack.pop()
-
+    for n in range(start, N+1):
+        stack.append(n)
+        dfs(n+1)
+        stack.pop()
 
 N, M = map(int, input().split())
-nums = [i for i in range(1, N + 1)]
-visit = [False] * N
-stack = []
 
-DFS(0)
+visit = [False for _ in range(N+1)]
+
+stack = []
+dfs(1)
