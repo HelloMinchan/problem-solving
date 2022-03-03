@@ -1,14 +1,18 @@
-import sys, bisect
+from collections import defaultdict
+import sys
+
 input = sys.stdin.readline
 
 N = int(input())
-A = sorted(list(map(int, input().split())))
-M = int(input())
-target = list(map(int, input().split()))
+A = list(map(int,input().split()))
 
-for num in target:
-    index = bisect.bisect_left(A, num)
-    if index < len(A) and A[bisect.bisect_left(A, num)] == num:
-        print(1)
-    else:
-        print(0)
+number_dict = defaultdict(bool)
+
+for number in A:
+    number_dict[number] = True
+
+M = int(input())
+targets = list(map(int,input().split()))
+
+for target in targets:
+    print(1 if number_dict[target] else 0)

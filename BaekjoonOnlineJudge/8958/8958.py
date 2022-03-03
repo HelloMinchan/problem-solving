@@ -1,14 +1,19 @@
 import sys
+
 input = sys.stdin.readline
 
-for i in range(int(input())):
-    totScore = 0
-    score = 1
-    arr = list(input())
-    for j in arr:
-        if(j == 'O'):
-            totScore += score
-            score += 1
+N = int(input())
+
+for _ in range(N):
+    results = input().rstrip()
+    answer = 0
+    score_stack = 0
+
+    for result in results:
+        if result == "O":
+            score_stack += 1
+            answer += score_stack
         else:
-            score = 1
-    print(totScore)
+            score_stack = 0
+        
+    print(answer)
