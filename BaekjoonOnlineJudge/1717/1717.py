@@ -1,38 +1,38 @@
 import sys
+sys.setrecursionlimit(10 ** 7)
 input = sys.stdin.readline
 
-
 def find(target):
-    if target == parent[target]:
+    if disjoint_set[target] == target:
         return target
-
-    parent[target] = find(parent[target])
-    return parent[target]
+    
+    disjoint_set[target] = find(disjoint_set[target])
+    return disjoint_set[target]
 
 
 def union(a, b):
-    a = find(a)
-    b = find(b)
+    find_a = find(a)
+    find_b = find(b)
 
-    if a < b:
-        parent[b] = a
+    if find_a == find_b:
+        return
+    elif find_a < find_b:
+        disjoint_set[find_b] = find_a
     else:
-        parent[a] = b
+        disjoint_set[find_a] = find_b
 
 
 n, m = map(int, input().split())
-parent = [ i for i in range(n + 1)]
+
+disjoint_set = list(range(n+1))
 
 for _ in range(m):
     oper, a, b = map(int, input().split())
 
-    if oper:
-        findA = find(a)
-        findB = find(b)
-
-        if findA == findB:
+    if oper == 0:
+        union(a, b)
+    else:
+        if find(b) == find(a):
             print("YES")
         else:
             print("NO")
-    else:
-        union(a, b)
