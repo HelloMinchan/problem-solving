@@ -1,23 +1,26 @@
 import sys
+
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
-A = list(map(int, input().split()))
+seq = list(map(int, input().split()))
 
-sP = eP = tot = 0
-ans = 0
+answer = 0
+start = 0
+cur_sum = 0
 
-while(True):
-    if tot >= M:
-        tot -= A[eP]
-        eP += 1
-    elif sP == len(A):
-        break
-    else:
-        tot += A[sP]
-        sP += 1
-    
-    if tot == M:
-        ans += 1
+for end, value in enumerate(seq):
+    cur_sum += value
 
-print(ans)
+    if cur_sum >= M:
+        if cur_sum == M:
+            answer += 1
+        else:
+            while cur_sum >= M:
+                cur_sum -= seq[start]
+                start += 1
+
+                if cur_sum == M:
+                    answer += 1
+
+print(answer)
