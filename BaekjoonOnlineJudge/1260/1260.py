@@ -1,26 +1,26 @@
 from collections import deque
 import sys
+
 input = sys.stdin.readline
 
-def dfs(sv):
-    visit[sv] = True    
 
-    for dv in adj_list[sv]:
-        if not visit[dv]:
-            stack.append(dv)
-            dfs(dv)
-    
-    return True
+def dfs(start):
+    for node in adj_list[start]:
+        if not visit[node]:
+            visit[node] = True
+            dfs_answer.append(node)
+            dfs(node)
+
 
 def bfs(dq):
     while dq:
-        sv = dq.popleft()
-        answer.append(sv)
+        start = dq.popleft()
+        bfs_answer.append(start)
 
-        for dv in adj_list[sv]:
-            if not visit[dv]:
-                visit[dv] = True
-                dq.append(dv)
+        for node in adj_list[start]:
+            if not visit[node]:
+                visit[node] = True
+                dq.append(node)
 
 
 N, M, V = map(int, input().split())
@@ -36,18 +36,19 @@ for _ in range(M):
 for i in range(1, N+1):
     adj_list[i].sort()
 
+dfs_answer = [V]
 visit = [False for _ in range(N+1)]
-stack = [V]
+visit[V] = True
 dfs(V)
 
-print(*stack)
+print(*dfs_answer)
 
-visit = [False for _ in range(N+1)]
 dq = deque()
 dq.append(V)
+visit = [False for _ in range(N+1)]
 visit[V] = True
 
-answer = []
+bfs_answer = []
 bfs(dq)
 
-print(*answer)
+print(*bfs_answer)
