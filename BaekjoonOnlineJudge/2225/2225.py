@@ -2,7 +2,7 @@ import sys
 
 input = sys.stdin.readline
 
-N, K = map(int,input().split())
+N, K = map(int, input().split())
 dp_table = [[0 for _ in range(N+1)] for _ in range(K+1)]
 
 for i in range(1, K+1):
