@@ -4,17 +4,15 @@ input = sys.stdin.readline
 
 N = int(input())
 
-house = []
-for _ in range(N):
-    house.append(list(map(int, input().split())))
+houses = [list(map(int, input().split())) for _ in range(N)]
 
 for i in range(1, N):
     for j in range(3):
         if j == 0:
-            house[i][j] += min(house[i - 1][j + 1], house[i - 1][j + 2])
+            houses[i][j] += min(houses[i-1][1], houses[i-1][2])
         elif j == 1:
-            house[i][j] += min(house[i - 1][j - 1], house[i - 1][j + 1])
+            houses[i][j] += min(houses[i-1][0], houses[i-1][2])
         else:
-            house[i][j] += min(house[i - 1][j - 1], house[i - 1][j - 2])
+            houses[i][j] += min(houses[i-1][0], houses[i-1][1])
 
-print(min(house[N - 1]))
+print(min(houses[-1]))

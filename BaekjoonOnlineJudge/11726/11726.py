@@ -4,14 +4,18 @@ input = sys.stdin.readline
 
 n = int(input())
 
-dp_table = [0 for _ in range(n + 1)]
+if n == 1:
+    print(1)
+    sys.exit(0)
+elif n == 2:
+    print(2)
+    sys.exit(0)
 
-for i in range(1, n + 1):
-    if i == 1:
-        dp_table[i] = 1
-    elif i == 2:
-        dp_table[i] = 2
-    else:
-        dp_table[i] = (dp_table[i - 1] + dp_table[i - 2]) % 10007
+dp_table = [0 for _ in range(n+1)]
+dp_table[1] = 1
+dp_table[2] = 2
+
+for i in range(3, n+1):
+    dp_table[i] = (dp_table[i-2] + dp_table[i-1]) % 10007
 
 print(dp_table[-1])

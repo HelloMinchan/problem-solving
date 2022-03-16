@@ -10,18 +10,19 @@ def dfs():
         if sum(stack) == n:
             answer += 1
         return
-
-    for i in range(1, 4):
-        stack.append(i)
+    
+    for num in nums:
+        stack.append(num)
         dfs()
         stack.pop()
 
 
 T = int(input())
+nums = [1,2,3]
 
 for _ in range(T):
     n = int(input())
-
+    
     answer = 0
     stack = []
     dfs()

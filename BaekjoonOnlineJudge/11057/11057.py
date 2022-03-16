@@ -11,6 +11,9 @@ for i in range(10):
 
 for i in range(2, N+1):
     for j in range(10):
-        dp_table[i][j] += sum(dp_table[i-1][:j+1])
+        if j == 0:
+            dp_table[i][j] = dp_table[i-1][j]
+        else:
+            dp_table[i][j] = sum(dp_table[i-1][:j+1])
 
 print(sum(dp_table[-1]) % 10007)
