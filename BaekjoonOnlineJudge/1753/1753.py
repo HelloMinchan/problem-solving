@@ -1,38 +1,39 @@
 import sys, heapq
+
 input = sys.stdin.readline
 
-def BFS(hq):
-    global distance
 
-    while(hq):
-        wei, vec = heapq.heappop(hq)
+def dijkstra(hq):
+    while hq:
+        weight, vertex = heapq.heappop(hq)
 
-        if distance[vec] > wei:
-            distance[vec] = wei
+        if weight < dist[vertex]:
+            dist[vertex] = weight
 
-            for v, w in adjList[vec]:
-                heapq.heappush(hq, (w+wei,v))
+            for v, w in adj_list[vertex]:
+                heapq.heappush(hq, (weight+w, v))
 
-V, E = map(int,input().split())
-INF = 2147483647
-distance = [INF] * (V+1)
+
+V, E = map(int, input().split())
 K = int(input())
-distance[K] = 0
-adjList = [[] for _ in range(V+1)]
+
+adj_list = [[] for _ in range(V+1)]
+
+INF = 2147483647
+dist = [INF for _ in range(V+1)]
+dist[K] = 0
 
 for _ in range(E):
-    a,b,w = map(int,input().split())
-    adjList[a].append((b,w))
+    u, v, w = map(int, input().split())
+
+    adj_list[u].append((v,w))
 
 hq = []
 
-for v, w in adjList[K]:
-    heapq.heappush(hq, (w,v))
+for v, w in adj_list[K]:
+    heapq.heappush(hq, (w, v))
 
-BFS(hq)
+dijkstra(hq)
 
-for d in distance[1:]:
-    if d ==INF:
-        print("INF")
-        continue
-    print(d)
+for answer in dist[1:]:
+    print(answer if answer != INF else "INF")

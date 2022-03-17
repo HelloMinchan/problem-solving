@@ -1,33 +1,32 @@
 import sys
+
 input = sys.stdin.readline
 
 
-def doCut(mid):
-    temp = 0
+def get_tree(cut_height):
+    cut_tree = 0
 
-    for h in high:
-        if h - mid > 0:
-            temp += h - mid
+    for tree in trees:
+        if tree > cut_height:
+            cut_tree += tree - cut_height
     
-    return temp
+    return cut_tree
 
 
 N, M = map(int, input().split())
-high = list(map(int, input().split()))
+trees = list(map(int, input().split()))
 
-left = 0
-right = max(high)
 answer = 0
+left = 0
+right = max(trees)
 
 while left <= right:
     mid = (left + right) // 2
 
-    treeLength = doCut(mid)
-
-    if treeLength >= M:
-        answer = mid
-        left = mid + 1
-    else:
+    if M > get_tree(mid):        
         right = mid - 1
+    else:
+        answer = max(answer, mid)
+        left = mid + 1
 
 print(answer)

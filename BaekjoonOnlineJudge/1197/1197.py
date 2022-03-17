@@ -1,51 +1,49 @@
-import sys
+import sys, heapq
+
 input = sys.stdin.readline
 
 
 def find(target):
-    if disjointSet[target] == target:
+    if target == disjoint_set[target]:
         return target
     
-    disjointSet[target] = find(disjointSet[target])
-    return disjointSet[target]
-    
+    disjoint_set[target] = find(disjoint_set[target])
+    return disjoint_set[target]
 
-def union(sv, dv):
-    findSV = find(sv)
-    findDV = find(dv)
 
-    if findSV == findDV:
+def union(a, b):
+    find_a = find(a)
+    find_b = find(b)
+
+    if find_a == find_b:
         return False
-    
-    if findSV < findDV:
-        disjointSet[findDV] = findSV
+    elif find_a < find_b:
+        disjoint_set[find_b] = find_a
     else:
-        disjointSet[findSV] = findDV
-    
+        disjoint_set[find_a] = find_b
+
     return True
 
-
 def kruskal():
-    global ans
+    global answer
 
-    for w, sv, dv in adjList:
-        if union(sv, dv):
-            ans += w
-
+    while hq:
+        weight, a, b = heapq.heappop(hq)
+    
+        if union(a, b):
+            answer += weight
 
 V, E = map(int, input().split())
-ans = 0
+disjoint_set = list(range(V+1))
+answer = 0
 
-disjointSet = [x for x in range(V + 1)]
+hq = []
 
-adjList = []
 for _ in range(E):
     A, B, C = map(int, input().split())
 
-    adjList.append((C, A, B))
-
-adjList.sort()
+    heapq.heappush(hq, (C, A, B))
 
 kruskal()
 
-print(ans)
+print(answer)
