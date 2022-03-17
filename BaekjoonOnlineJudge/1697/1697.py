@@ -16,7 +16,7 @@ def bfs(hq):
             else:
                 next_location = location + dx[way]
             
-            if next_location < -100000 or next_location > 100000:
+            if next_location < 0 or next_location > 100000:
                 continue
 
             if not visit[next_location]:
@@ -26,7 +26,7 @@ def bfs(hq):
 
 
 N, K = map(int, input().split())
-visit = [0 for _ in range(200001)]
+visit = [False for _ in range(100001)]
 
 dx = [-1, 1]
 
