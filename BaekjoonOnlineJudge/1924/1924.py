@@ -2,37 +2,36 @@ import sys
 
 input = sys.stdin.readline
 
-day_to_eng_dict = {
-    1 : "MON",
-    2 : "TUE",
-    3 : "WED",
-    4 : "THU",
-    5 : "FRI",
-    6 : "SAT",
-    0 : "SUN"
-}
+x, y = map(int, input().split())
 
-day_of_month_dict = {
-    1 : 31,
-    2 : 28,
-    3 : 31,
-    4 : 30,
-    5 : 31,
-    6 : 30,
-    7 : 31,
-    8 : 31,
-    9 : 30,
-    10 : 31,
-    11 : 30,
-}
+days_in_month = [
+    0,
+    31,
+    28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+]
 
-x, y = map(int,input().split())
+day_to_string = [
+    "SUN",
+    "MON",
+    "TUE",
+    "WED",
+    "THU",
+    "FRI",
+    "SAT"
+]
 
-sum_day = y
+total_days = y
 
-if x > 1:
-    for month in range(1, x):
-        sum_day += day_of_month_dict[month]
+for month in range(1, x):
+    total_days += days_in_month[month]
 
-
-print(day_to_eng_dict[(sum_day % 7)])
+print(day_to_string[total_days % 7])
