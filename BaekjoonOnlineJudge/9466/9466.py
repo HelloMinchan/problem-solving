@@ -1,34 +1,36 @@
 import sys
+
 input = sys.stdin.readline
 sys.setrecursionlimit(10 ** 7)
 
 
-def DFS(target):
+def dfs(target):
     global answer
 
     visit[target] = True
     cycle.append(target)
-    nextTarget = sel[target]
+    nextTarget = select_person[target]
 
     if visit[nextTarget]:
         if nextTarget in cycle:
-            answer += cycle[cycle.index(nextTarget):]
+            answer += cycle[cycle.index(nextTarget) :]
         return
     else:
-        DFS(nextTarget)
+        dfs(nextTarget)
 
 
 T = int(input())
 
 for _ in range(T):
     n = int(input())
-    sel = [0] + list(map(int, input().split()))
-    visit = [False] * (n + 1)
+
+    select_person = [0] + list(map(int, input().split()))
+    visit = [False for _ in range(n + 1)]
     answer = []
 
     for i in range(1, n + 1):
         if not visit[i]:
             cycle = []
-            DFS(i)
-                
+            dfs(i)
+
     print(n - len(answer))
