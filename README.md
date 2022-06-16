@@ -16,4 +16,4 @@ Hackerank
 
 Codeforces
 
-Elice
+elice
