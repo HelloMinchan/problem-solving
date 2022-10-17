@@ -1,7 +1,10 @@
 import sys
+
 input = sys.stdin.readline
 
-for i in range(int(input())):
-    for j in range(i + 1):
-        print('*', end="")
-    print()
+T = int(input())
+
+for i in range(T):
+    A, B = map(int, input().split())
+
+    print(f"Case #{i+1}: {A} + {B} = {A+B}")
