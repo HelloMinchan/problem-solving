@@ -7,11 +7,17 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int year = Integer.parseInt(st.nextToken());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
 
-        bw.write(String.valueOf(year - 543));
+        bw.write(String.valueOf(a + b) + "\n");
+        bw.write(String.valueOf(a - b) + "\n");
+        bw.write(String.valueOf(a * b) + "\n");
+        bw.write(String.valueOf(a / b) + "\n");
+        bw.write(String.valueOf(a % b) + "\n");
 
         bw.flush();
         bw.close();

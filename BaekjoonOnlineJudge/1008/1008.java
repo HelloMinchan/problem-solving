@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
 
 
 public class Main {
@@ -7,15 +7,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        String[] pieces = br.readLine().split(" ");
-        int[] chess = {1, 1, 2, 2, 2, 8};
-        StringBuilder answer = new StringBuilder();
 
-        for (int i = 0; i < chess.length; i++) {
-            answer.append(chess[i] - Integer.parseInt(pieces[i]) + " ");
-        }
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        bw.write(answer + "\n");
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+
+        bw.write(String.format("%.9f", (double) a / b));
+        bw.newLine();
 
         bw.flush();
         bw.close();
