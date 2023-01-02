@@ -10,22 +10,22 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        int n = Integer.parseInt(br.readLine());
-        Set<Integer> cards = new HashSet<>();
+        int cardCount = Integer.parseInt(br.readLine());
+        Set<Integer> cardDeck = new HashSet<>();
 
         st = new StringTokenizer(br.readLine());
-        while (n-- != 0) {
-            cards.add(Integer.parseInt(st.nextToken()));
+        while (st.hasMoreTokens()) {
+            cardDeck.add(Integer.parseInt(st.nextToken()));
         }
 
-        int m = Integer.parseInt(br.readLine());
-
+        int targetCardCount = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
-        while (m-- != 0) {
-            if (cards.contains(Integer.parseInt(st.nextToken()))) {
-                bw.write(1 + " ");
+
+        while (st.hasMoreTokens()) {
+            if (cardDeck.contains(Integer.parseInt(st.nextToken()))) {
+                bw.write("1 ");
             } else {
-                bw.write(0 + " ");
+                bw.write("0 ");
             }
         }
 
