@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
+
 
 public class Main {
 
@@ -11,16 +11,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int n = Integer.parseInt(br.readLine());
-        Map<Integer, Integer> cards = new HashMap<>();
+        Map<String, Integer> numberDict = new HashMap<>();
 
         st = new StringTokenizer(br.readLine());
         while (n-- != 0) {
-            int card = Integer.parseInt(st.nextToken());
+            String number = st.nextToken();
 
-            if (cards.containsKey(card)) {
-                cards.put(card, cards.get(card) + 1);
+            if (numberDict.containsKey(number)) {
+                numberDict.put(number, numberDict.get(number) + 1);
             } else {
-                cards.put(card, 1);
+                numberDict.put(number, 1);
             }
         }
 
@@ -28,12 +28,12 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         while (m-- != 0) {
-            int card = Integer.parseInt(st.nextToken());
+            String number = st.nextToken();
 
-            if (cards.containsKey(card)) {
-                bw.write(cards.get(card) + " ");
+            if (numberDict.containsKey(number)) {
+                bw.write(numberDict.get(number) + " ");
             } else {
-                bw.write(0 + " ");
+                bw.write("0 ");
             }
         }
 
