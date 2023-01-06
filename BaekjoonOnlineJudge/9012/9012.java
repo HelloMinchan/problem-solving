@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
+
 
 public class Main {
 
@@ -10,32 +10,33 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        int testCase = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
-        while (testCase-- != 0) {
-            Stack<Character> stack = new Stack<Character>();
-            String inputString = br.readLine();
+        while (n-- != 0) {
+            Stack<Character> stack = new Stack<>();
             boolean isPossible = true;
 
-            for (int index = 0; index < inputString.length(); index++) {
-                char target = inputString.charAt(index);
+            String input = br.readLine();
 
-                if (target == '(') {
-                    stack.add(target);
+            for (int i = 0; i < input.length(); i++) {
+                char ps = input.charAt(i);
+
+                if (ps == '(') {
+                    stack.add(ps);
                 } else {
-                    if (stack.empty()) {
+                    if (!stack.empty() && stack.peek() == '(') {
+                        stack.pop();
+                    } else {
                         isPossible = false;
                         break;
-                    } else {
-                        stack.pop();
                     }
                 }
             }
 
             if (isPossible && stack.empty()) {
-                bw.write("YES" + "\n");
+                bw.write("YES\n");
             } else {
-                bw.write("NO" + "\n");
+                bw.write("NO\n");
             }
         }
 
