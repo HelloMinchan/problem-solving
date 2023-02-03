@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class Main {
 
@@ -13,35 +13,40 @@ public class Main {
         int testCase = Integer.parseInt(br.readLine());
 
         while (testCase-- != 0) {
-            String functions = br.readLine();
+            char[] opers = br.readLine().toCharArray();
             int n = Integer.parseInt(br.readLine());
-            String numbers = br.readLine();
 
-            numbers = numbers.substring(1, numbers.length() - 1);
-            String[] numbersArray = numbers.split(",");
-            Deque<String> numberQueue = new LinkedList<>();
+            String preArray = br.readLine();
+            preArray = preArray.substring(1, preArray.length() - 1);
 
-            if (!numbers.equals("")) {
-                for (String number : numbersArray) {
-                    numberQueue.add(number);
-                }
+            String[] array;
+            if (preArray.equals("")) {
+                array = new String[0];
+            } else {
+                array = preArray.split(",");
+            }
+
+            Deque<String> dequeue = new LinkedList<>();
+            for (String number : array) {
+                dequeue.add(number);
             }
 
             boolean isReverse = false;
             boolean isError = false;
-            for (int i = 0; i < functions.length(); i++) {
-                if (functions.charAt(i) == 'R') {
-                    isReverse = !isReverse;
-                } else {
-                    if (numberQueue.isEmpty()) {
-                        isError = true;
-                    } else {
+            for (char oper : opers) {
+                if (oper == 'D') {
+                    if (!dequeue.isEmpty()) {
                         if (isReverse) {
-                            numberQueue.removeLast();
+                            dequeue.removeLast();
                         } else {
-                            numberQueue.remove();
+                            dequeue.remove();
                         }
+                    } else {
+                        isError = true;
+                        break;
                     }
+                } else {
+                    isReverse = !isReverse;
                 }
             }
 
@@ -50,18 +55,16 @@ public class Main {
             } else {
                 StringBuilder sb = new StringBuilder("[");
 
-                while (!numberQueue.isEmpty()) {
-                    String number;
+                while (!dequeue.isEmpty()) {
                     if (isReverse) {
-                        number = numberQueue.pollLast();
+                        sb.append(dequeue.pollLast() + ",");
                     } else {
-                        number = numberQueue.poll();
+                        sb.append(dequeue.poll() + ",");
                     }
 
-                    sb.append(number + ",");
                 }
 
-                if (sb.length() != 1) {
+                if (sb.length() > 1) {
                     sb.deleteCharAt(sb.length() - 1);
                 }
 
