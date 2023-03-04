@@ -24,8 +24,8 @@ class Solution {
         while (true) {
             if (buyType.keySet().size() == gemType.size()) {
                 if (answer[1] - answer[0] > moveJ - moveI) {
-                    answer[1] = moveJ + 1;
                     answer[0] = moveI + 1;
+                    answer[1] = moveJ + 1;
                 }
                 
                 if (moveI + 1 < moveJ) {
