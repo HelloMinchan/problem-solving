@@ -1,26 +1,42 @@
+from collections import defaultdict
+
+MULTI_VALUE = 65536
+
 def solution(str1, str2):
-    str1 = str1.lower()
-    str2 = str2.lower()
-    charSet1 = []
-    charSet2 = []
+    multi_set1 = defaultdict(int)
+    multi_set2 = defaultdict(int)
     
     for i in range(len(str1) - 1):
-        if (str1[i] + str1[i + 1]).isalpha():
-            charSet1.append(str1[i] + str1[i + 1])
+        word = (str1[i] + str1[i+1]).upper()
+        if word.isalpha():
+            multi_set1[word] += 1
     
     for i in range(len(str2) - 1):
-        if (str2[i] + str2[i + 1]).isalpha():
-            charSet2.append(str2[i] + str2[i + 1])
-    
-    plusSetLength = len(charSet1) + len(charSet2)
-    sameSetLength = 0
-    
-    for cmpStr in charSet2:
-        if cmpStr in charSet1:
-            charSet1.remove(cmpStr)
-            sameSetLength += 1
+        word = (str2[i] + str2[i+1]).upper()
+        if word.isalpha():
+            multi_set2[word] += 1
             
-    if not plusSetLength:
-        return 65536
+    intersection = []
+    for word, count in multi_set1.items():
+        if multi_set2.get(word, 0):
+            for _ in range(min(multi_set2.get(word, 0), count)):
+                intersection.append(word)
+    
+    union = []
+    intersection_count = 0
+    for word, count in multi_set1.items():
+        for _ in range(count):
+            union.append(word)
+    
+    for word, count in multi_set2.items():
+        for _ in range(count):
+            union.append(word)
+    
+    if union:
+        return int(len(intersection) / (len(union) - len(intersection)) * MULTI_VALUE)
     else:
-        return int(sameSetLength / (plusSetLength - sameSetLength) * 65536)
+        if intersection:
+            return 0
+        else:
+            return MULTI_VALUE
+        
