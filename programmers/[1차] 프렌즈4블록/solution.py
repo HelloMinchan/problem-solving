@@ -1,77 +1,78 @@
 from collections import deque
 
-
-def check(i, j, board, dx, dy, visit):
-    isSame = True
-    
-    for way in range(3):
-        ii = i + dx[way]
-        jj = j + dy[way]
-        
-        if board[ii][jj] != board[i][j]:
-            isSame = False
-            break
-    
-    if isSame:
-        if not visit[i][j]:
-            visit[i][j] = True
-            
-        for way in range(3):
-            ii = i + dx[way]
-            jj = j + dy[way]
-            
-            if not visit[ii][jj]:
-                visit[ii][jj] = True
+dx = [1, 0, 1]
+dy = [0, -1, -1]
+WAY_COUNT = 3
+DELETED = "0"
 
 
-def rebuild(m, n, board, visit):
-    global answer
-    
-    isRebuild = False
-    dq = deque()
-    
-    for i in range(n):
-        for j in range(m):
-            dq.append((board[i][j], visit[i][j]))
-    
-    for i in range(n):
-        index = 0
-        eraseCount = 0
-        for j in range(m):
-            block, isErase = dq.popleft()
-            
-            if not isErase:
-                board[i][index] = block
-                index += 1
+def check_2_by_2_squre(board, m, n):
+    delete_location = set()
+
+    for i in range(m):
+        for j in range(n):
+            block_type = board[i][j]
+
+            if block_type == DELETED:
+                continue
+
+            candidate_location = [(i, j)]
+            for way in range(WAY_COUNT):
+                next_i = i + dx[way]
+                next_j = j + dy[way]
+                candidate_location.append((next_i, next_j))
+
+                if next_i < 0 or next_i > m - 1 or next_j < 0 or next_j > n - 1:
+                    break
+
+                if board[next_i][next_j] != block_type:
+                    break
             else:
-                isRebuild = True
-                answer += 1
-                eraseCount += 1
-                
-        while eraseCount:
-            board[i][index] = "NULL"
-            index += 1
-            eraseCount -= 1
-    
-    return isRebuild
+                for location in candidate_location:
+                    delete_location.add(location)
 
-    
+    return delete_location
+
+
+def delete_block(board, delete_location):
+    for location in delete_location:
+        i, j = location
+
+        board[i][j] = DELETED
+
+
+def relocate_board(board, m, n):
+    for j in range(n):
+        dq = deque()
+
+        for i in range(m - 1, -1, -1):
+            block_type = board[i][j]
+
+            if block_type != DELETED:
+                dq.append(block_type)
+
+        for i in range(m - 1, -1, -1):
+            if dq:
+                board[i][j] = dq.popleft()
+            else:
+                board[i][j] = DELETED
+
+
 def solution(m, n, board):
-    global answer 
-    
     answer = 0
-    board = [list(reversed(x)) for x in zip(*board)]
-    dx, dy = [0, 1, 1], [1, 0, 1]
-    
-    while 1:
-        visit = [[False] * m for _ in range(n)]
-        
-        for i in range(n - 1):
-            for j in range(m - 1):
-                if board[i][j] != "NULL":
-                    check(i, j, board, dx, dy, visit)
-        
-        if not rebuild(m, n, board, visit):
+
+    game_board = []
+    for line in board:
+        game_board.append(list(line))
+
+    while True:
+        delete_location = check_2_by_2_squre(game_board, m, n)
+
+        if delete_location:
+            answer += len(delete_location)
+            delete_block(game_board, delete_location)
+            relocate_board(game_board, m, n)
+        else:
             break
-        
+
     return answer
