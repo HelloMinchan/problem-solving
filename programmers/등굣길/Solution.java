@@ -1,6 +1,7 @@
 import java.util.*;
 
 class Solution {
+    private static final int MOD_VALUE = 1000000007;
     private static int[][] map;
     
     private static int dfs(int i, int j, int n, int m) {
@@ -24,7 +25,7 @@ class Solution {
             map[i][j] += dfs(i, j + 1, n, m);    
         }
         
-        map[i][j] %= 1000000007;
+        map[i][j] %= MOD_VALUE;
         
         return map[i][j];
     }
