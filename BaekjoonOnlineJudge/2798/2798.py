@@ -1,32 +1,32 @@
-# 3:27 ~ 3:36 (9분)
 import sys
 
 input = sys.stdin.readline
 
 
-def dfs(index):
+def dfs(card_index):
     global answer
 
-    if len(stack) == 3:
-        if sum(stack) <= M:
-            answer = max(answer, sum(stack))
+    if len(card_stack) == 3:
+        card_stack_sum = sum(card_stack)
+        if card_stack_sum <= max_sum:
+            answer = max(answer, card_stack_sum)
         return
 
-    for i in range(index, N):
-        if not visit[i]:
-            visit[i] = True
-            stack.append(cards[i])
-            dfs(i + 1)
-            visit[i] = False
-            stack.pop()
+    for next_card_index in range(card_index, card_number):
+        if not visit[next_card_index]:
+            visit[next_card_index] = True
+            card_stack.append(cards[next_card_index])
+            dfs(next_card_index + 1)
+            visit[next_card_index] = False
+            card_stack.pop()
 
 
-N, M = map(int, input().split())
+card_number, max_sum = map(int, input().split())
 cards = list(map(int, input().split()))
 
 answer = 0
-visit = [False for _ in range(N)]
-stack = []
+card_stack = []
+visit = [False for _ in range(card_number)]
 
 dfs(0)
 
