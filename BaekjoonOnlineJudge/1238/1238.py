@@ -1,52 +1,44 @@
 import sys, heapq
+
 input = sys.stdin.readline
 
-def BFS(hq, dt, adjList):
-    while(hq):
-        wei, vec = heapq.heappop(hq)
 
-        if dt[vec] > wei:
-            dt[vec] = wei
+def dijkstra(adj_list):
+    INF = sys.maxsize
+    dists = [INF for _ in range(N + 1)]
+    dists[X] = 0
 
-            for v, w in adjList[vec]:
-                heapq.heappush(hq, (w+wei, v))
+    hq = []
+    for v, w in adj_list[X]:
+        heapq.heappush(hq, (w, v))
+
+    while hq:
+        w, v = heapq.heappop(hq)
+
+        if dists[v] > w:
+            dists[v] = w
+
+            for next_v, next_w in adj_list[v]:
+                if dists[next_v] > dists[v] + next_w:
+                    heapq.heappush(hq, (dists[v] + next_w, next_v))
+
+    for index, dist in enumerate(dists):
+        answer[index] += dist
 
 
 N, M, X = map(int, input().split())
-adjList = [[] for _ in range(N+1)]
-reverseAdjList = [[] for _ in range(N+1)]
 
-INF = 2147483647
-bdt = [INF] * (N+1)
-bdt[X] = 0
-sdt = [INF] * (N+1)
-sdt[X] = 0
-hq = []
-
+adj_list = [[] for _ in range(N + 1)]
+reversed_adj_list = [[] for _ in range(N + 1)]
 for _ in range(M):
-    a, b, w = map(int, input().split())
+    sv, dv, w = map(int, input().split())
 
-    adjList[a].append((b, w))
-    reverseAdjList[b].append((a,w))
+    adj_list[sv].append((dv, w))
+    reversed_adj_list[dv].append((sv, w))
 
-for v, w in adjList[X]:
-    heapq.heappush(hq, (w, v))
+answer = [0 for _ in range(N + 1)]
 
-BFS(hq, bdt, adjList)
+dijkstra(adj_list)
+dijkstra(reversed_adj_list)
 
-hq = []
-for v, w in reverseAdjList[X]:
-    heapq.heappush(hq, (w, v))
-
-BFS(hq, sdt, reverseAdjList)
-
-maxTime = 0
-
-for i in range(1, N+1):
-    if i == X:
-        continue
-
-    if maxTime < sdt[i] + bdt[i]:
-        maxTime = sdt[i] + bdt[i]
-
-print(maxTime)
+print(max(answer[1:]))

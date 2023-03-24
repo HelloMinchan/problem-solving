@@ -1,40 +1,56 @@
 import sys, heapq
+
 input = sys.stdin.readline
 
-def BFS(hq):
+
+def dijkstra():
     while hq:
-        wei, vec = heapq.heappop(hq)
-        
-        if di[vec] > wei:
-            di[vec] = wei
+        w, v = heapq.heappop(hq)
 
-            for w, v in adjList[vec]:
-                heapq.heappush(hq, (w+wei, v))
+        if dists[v] > w:
+            dists[v] = w
 
-N, E = map(int,input().split())
+            for next_v, next_w in adj_list[v]:
+                if dists[next_v] > dists[v] + next_w:
+                    heapq.heappush(hq, (dists[v] + next_w, next_v))
 
-ans = [0, 0]
 
-INF = 2147483647
-adjList = [[] for _ in range(N+1)]
+N, E = map(int, input().split())
+
+INF = sys.maxsize
+adj_list = [[] for _ in range(N + 1)]
 
 for _ in range(E):
-    a, b, c = map(int,input().split())
+    a, b, c = map(int, input().split())
 
-    adjList[a].append((c,b))
-    adjList[b].append((c,a))
+    adj_list[a].append((b, c))
+    adj_list[b].append((a, c))
 
-stopOver = list(map(int,input().split()))
-itinerary = [[1,stopOver[0],stopOver[1],N], [1,stopOver[1],stopOver[0],N]]
+v1, v2 = map(int, input().split())
 
-for i in range(2):
-    for j in range(3):
-        di = [INF] * (N+1)
-        di[itinerary[i][j]] = 0
+itinerarys = [[(1, v1), (v1, v2), (v2, N)], [(1, v2), (v2, v1), (v1, N)]]
+
+answer = []
+for itinerary in itinerarys:
+    total_dist = 0
+    for travel in itinerary:
+        departure, destination = travel
+
+        dists = [INF for _ in range(N + 1)]
+        dists[departure] = 0
+
         hq = []
-        for w, v in adjList[itinerary[i][j]]:
-            heapq.heappush(hq,(w,v))
-        BFS(hq)
-        ans[i] += di[itinerary[i][j+1]]
+        for v, w in adj_list[departure]:
+            heapq.heappush(hq, (w, v))
 
-print(min(ans) if min(ans) < INF else -1)
+        dijkstra()
+
+        if dists[destination] != INF:
+            total_dist += dists[destination]
+        else:
+            total_dist = INF
+            break
+
+    answer.append(total_dist)
+
+print(min(answer) if min(answer) != INF else -1)
