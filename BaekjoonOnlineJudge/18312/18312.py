@@ -1,21 +1,28 @@
-# 3:44 ~ 3:53 (9분)
 import sys
 
 input = sys.stdin.readline
 
 N, K = map(int, input().split())
+
 answer = 0
+for hour in range(0, N + 1):
+    if hour < 10:
+        hour = "0" + str(hour)
+    else:
+        hour = str(hour)
+    for minute in range(0, 60):
+        if minute < 10:
+            minute = "0" + str(minute)
+        else:
+            minute = str(minute)
+        for second in range(0, 60):
+            if second < 10:
+                second = "0" + str(second)
+            else:
+                second = str(second)
 
-for h in range(24):
-    for m in range(60):
-        for s in range(60):
-            hour = "0" + str(h) if h < 10 else str(h)
-            minute = "0" + str(m) if m < 10 else str(m)
-            second = "0" + str(s) if s < 10 else str(s)
+            time_string = hour + minute + second
 
-            if str(K) in hour + minute + second:
+            if str(K) in time_string:
                 answer += 1
-
-            if h == N and m == 59 and s == 59:
-                print(answer)
-                sys.exit(0)
+print(answer)

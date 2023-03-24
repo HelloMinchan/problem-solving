@@ -1,9 +1,9 @@
-students = [False for _ in range(31)]
+import sys
 
-for _ in range(28):
-    number = int(input())
-    students[number] = True
+input = sys.stdin.readline
 
-for i, s in enumerate(students[1:]):
-    if not s:
-        print(i + 1)
+students = [int(input()) for _ in range(28)]
+
+for number in range(1, 31):
+    if number not in students:
+        print(number)
