@@ -1,27 +1,34 @@
 import sys
+
+sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
 
-def DFS(L):
-    print(L, "===")
-    for i in range(1, (L // 2) + 1):
-        print(stack)
-        print(stack[-i:], stack[-2 * i:-i])
-        if stack[-i:] == stack[-2 * i:-i]:
-            return -1
-    
-    if L == N:
-        print(*stack, sep="")
+def is_bad_seq(answer):
+    for i in range(1, len(answer) // 2 + 1):
+        if answer[-i:] == answer[-2 * i : -i]:
+            return True
+
+    return False
+
+
+def dfs():
+    if is_bad_seq(answer):
+        return
+
+    if len(answer) == N:
+        print(*answer, sep="")
         sys.exit(0)
 
-    for j in range(1, 4):
-        stack.append(str(j))
-        DFS(L + 1)
-        stack.pop()
+    for i in range(3):
+        answer.append(nums[i])
+        dfs()
+        answer.pop()
 
 
 N = int(input())
 
-stack = []
+nums = [1, 2, 3]
+answer = []
 
-DFS(0)
+dfs()
