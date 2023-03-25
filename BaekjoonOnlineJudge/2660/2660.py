@@ -1,46 +1,48 @@
+from collections import defaultdict
 import sys
+
 input = sys.stdin.readline
 
 
-def floydWarshall():
-    for k in range(1, n + 1):
-        for i in range(1, n + 1):
-            for j in range(1, n + 1):
-                table[i][j] = min(table[i][j], table[i][k] + table[k][j])
+def floydwarshall():
+    for member3 in range(1, N + 1):
+        for member1 in range(1, N + 1):
+            for member2 in range(1, N + 1):
+                if (
+                    adj_matrix[member1][member3] != INF
+                    and adj_matrix[member3][member2] != INF
+                ):
+                    adj_matrix[member1][member2] = min(
+                        adj_matrix[member1][member2],
+                        adj_matrix[member1][member3] + adj_matrix[member3][member2],
+                    )
 
 
-n = int(input())
+N = int(input())
 
-INF = 2147483647
-table = [[INF] * (n + 1) for _ in range(n + 1)]
-for i in range(1, n + 1):
-    table[i][i] = 0
+INF = sys.maxsize
+adj_matrix = [[INF for _ in range(N + 1)] for _ in range(N + 1)]
+for member in range(1, N + 1):
+    adj_matrix[member][member] = 0
 
-while 1:
-    sv, dv = map(int, input().split())
+while True:
+    member1, member2 = map(int, input().split())
 
-    if sv + dv == -2:
+    if member1 == -1 and member2 == -1:
         break
 
-    table[sv][dv] = 1
-    table[dv][sv] = 1
+    adj_matrix[member1][member2] = 1
+    adj_matrix[member2][member1] = 1
 
-floydWarshall()
 
-score = []
-for i in range(1, n + 1):
-    temp = 0
-    for j in range(1, n + 1):
-        if table[i][j] != INF:
-            temp = max(temp, table[i][j])
-    score.append((temp, i))
-score.sort()
+floydwarshall()
 
-candidate = []
-for s, i in score:
-    if s > score[0][0]:
-        break
-    candidate.append(i)
+rank_dict = defaultdict(list)
+max_rank = INF
+for index, row in enumerate(adj_matrix[1:]):
+    rank = max([score if score != INF else 0 for score in row[1:]])
+    max_rank = min(max_rank, rank)
+    rank_dict[rank].append(index + 1)
 
-print(score[0][0], len(candidate))
-print(*candidate)
+print(max_rank, len(rank_dict[max_rank]))
+print(*sorted(rank_dict[max_rank]))
