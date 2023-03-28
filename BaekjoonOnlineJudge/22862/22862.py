@@ -1,5 +1,3 @@
-# 3:46 ~ 3:51 (5분)
-
 import sys
 
 input = sys.stdin.readline
@@ -7,24 +5,32 @@ input = sys.stdin.readline
 N, K = map(int, input().split())
 seq = list(map(int, input().split()))
 
-end = 0
-length = 0
+left = 0
+right = 0
+
+while left < N and seq[left] % 2 != 0:
+    left += 1
+
 answer = 0
-count = 0
+right = left + 1
+if left < N:
+    answer = 1
+odd_count = 0
 
-for start in range(N):
-    while count <= K and end < N:
-        if seq[end] % 2 == 1:
-            count += 1
-        else:
-            length += 1
-        end += 1
-
-    answer = max(answer, length)
-
-    if seq[start] % 2 == 1:
-        count -= 1
+while right < N:
+    if seq[right] % 2 == 0:
+        answer = max(answer, right - left + 1 - odd_count)
+        right += 1
     else:
-        length -= 1
+        if odd_count < K:
+            odd_count += 1
+            answer = max(answer, right - left + 1 - odd_count)
+            right += 1
+        else:
+            while seq[left] % 2 == 0:
+                left += 1
+
+            odd_count -= 1
+            left += 1
 
 print(answer)

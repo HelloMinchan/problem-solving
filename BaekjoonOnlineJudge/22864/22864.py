@@ -1,21 +1,22 @@
-# 1:22 ~ 2:01
 import sys
 
 input = sys.stdin.readline
 
 A, B, C, M = map(int, input().split())
 
-if A > M:
-    print(0)
-else:
-    answer = 0
-    p = 0
+TODAY_HOUR = 24
 
-    for _ in range(24):
-        if p + A <= M:
-            answer += B
-            p += A
-        else:
-            p = 0 if p - C < 0 else p - C
+current_patigue = 0
+current_throughput = 0
 
-    print(answer)
+for _ in range(TODAY_HOUR):
+    if current_patigue + A <= M:
+        current_patigue += A
+        current_throughput += B
+    else:
+        current_patigue -= C
+
+        if current_patigue < 0:
+            current_patigue = 0
+
+print(current_throughput)
