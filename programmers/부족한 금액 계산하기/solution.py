@@ -1,6 +1,8 @@
-def solution(price, money, count):
-    total_money = 0
-    for multi in range(1, count + 1):
-        total_money += price * multi
+def solution(price, money, max_count):
+    for count in range(1, max_count + 1):
+        money -= price * count
 
-    return abs(money - total_money) if money - total_money < 0 else 0
+    if money < 0:
+        return -money
+    else:
+        return 0
