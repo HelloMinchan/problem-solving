@@ -14,10 +14,11 @@ for time in range(0, 101):
         print(time)
         break
     else:
-        is_C = False
+        is_c_oper = False
+
         if len(arr) < len(arr[0]):
-            is_C = True
-            arr = [list(col) for col in zip(*arr)][:]
+            is_c_oper = True
+            arr = [list(col) for col in zip(*arr)]
 
         max_length = 0
         for index, row in enumerate(arr):
@@ -42,7 +43,7 @@ for time in range(0, 101):
                 for _ in range(max_length - len(row)):
                     arr[index].append(0)
 
-        if is_C:
-            arr = [list(col) for col in zip(*arr)][:]
+        if is_c_oper:
+            arr = [list(col) for col in zip(*arr)]
 else:
     print(-1)
