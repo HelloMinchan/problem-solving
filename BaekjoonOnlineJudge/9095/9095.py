@@ -1,30 +1,37 @@
 import sys
 
+sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
 
-def dfs():
-    global answer
+def dfs(number):
+    if number < 0:
+        return 0
+    if number == 1:
+        memoization[number] = 1
+        return memoization[number]
+    if number == 2:
+        memoization[number] = 2
+        return memoization[number]
+    if number == 3:
+        memoization[number] = 4
+        return memoization[number]
 
-    if sum(stack) >= n:
-        if sum(stack) == n:
-            answer += 1
-        return
-    
-    for num in nums:
-        stack.append(num)
-        dfs()
-        stack.pop()
+    if memoization[number] != -1:
+        return memoization[number]
+
+    memoization[number] = 0
+    memoization[number] = dfs(number - 1) + dfs(number - 2) + dfs(number - 3)
+
+    return memoization[number]
 
 
 T = int(input())
-nums = [1,2,3]
+memoization = [-1 for _ in range(11)]
 
-for _ in range(T):
+while T:
+    T -= 1
+
     n = int(input())
-    
-    answer = 0
-    stack = []
-    dfs()
 
-    print(answer)
+    print(dfs(n))
