@@ -1,59 +1,68 @@
-# 문자열 w를 u, v로 분리하는 함수
-def divide(w):
-    openP = 0
-    closeP = 0
-    
-    for i in range(len(w)):
-        if w[i] == '(':
-            openP += 1
-        else:
-            closeP += 1
-        if openP == closeP:
-            return w[:i + 1], w[i + 1:]
+import sys
+
+sys.setrecursionlimit(10**7)
 
 
-# 문자열 u가 올바른 괄호 문자열인지 확인하는 함수
-def isBalanced(u):
-    stack = []
-    
-    for p in u:
-        if p == '(':
-            stack.append(p)
-        else:
-            if not stack:
-                return False
-            stack.pop()
-            
-    return True
+def dfs(p):
+    temp_string = ""
 
-
-def solution(w):
-    # 과정 1
-    if not w:
+    if p == "":
         return ""
-    
-    # 과정 2
-    u, v = divide(w)
-    
-    # 과정 3
-    if isBalanced(u):
-        # 과정 3-1
-        return u + solution(v)
-    # 과정 4
-    else:
-        # 과정 4-1
-        answer = '('
-        # 과정 4-2
-        answer += solution(v)
-        # 과정 4-3
-        answer += ')'
-        
-        # 과정 4-4
-        for p in u[1:len(u) - 1]:
-            if p == '(':
-                answer += ')'
+
+    stack = []
+    is_u_right = True
+    left = 0
+    right = 0
+
+    u_index = 0
+    while u_index < len(p):
+        if p[u_index] == "(":
+            left += 1
+            stack.append(p[u_index])
+
+            if left == right:
+                u_index += 1
+                break
+        else:
+            right += 1
+
+            if stack and stack[-1] == "(":
+                stack.pop()
             else:
-                answer += '('
-        
-        # 과정 4-5
-        return answer
+                is_u_right = False
+
+            if left == right:
+                u_index += 1
+                break
+
+        u_index += 1
+
+    if is_u_right:
+        temp_string += p[:u_index]
+
+        if u_index < len(p):
+            temp_string += dfs(p[u_index:])
+    else:
+        temp_string = "("
+
+        if u_index < len(p):
+            temp_string += dfs(p[u_index:])
+
+        temp_string += ")"
+
+        for u_p in p[:u_index][1 : u_index - 1]:
+            if u_p == "(":
+                temp_string += ")"
+            else:
+                temp_string += "("
+
+    return temp_string
+
+
+def solution(p):
+    answer = ""
+
+    if p:
+        answer = dfs(p)
+
+    return answer
